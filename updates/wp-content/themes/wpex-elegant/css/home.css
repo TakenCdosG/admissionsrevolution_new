@@ -1,0 +1,212 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 2, 2015, 2:57:32 PM
+    Author     : Adrian
+*/
+
+/*
++===================================+
+| Home  Css                         |
++===================================+
+*/
+@font-face {
+    font-family: 'WistiaOpenSans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Light'), local('OpenSans-Light'), url(http://fast.wistia.com/fonts/WistiaOpenSansLight.woff) format('woff');
+}
+@font-face {
+    font-family: 'WistiaOpenSans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(http://fast.wistia.com/fonts/WistiaOpenSansSemiBold.woff) format('woff');
+}
+@font-face {
+    font-family: 'WistiaOpenSans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url(http://fast.wistia.com/fonts/WistiaOpenSansBold.woff) format('woff');
+}
+#wistia_17_requireEmail {
+    cursor:default;
+    height:440px;
+    left:0;
+    overflow:hidden;
+    position:absolute;
+    top:0;
+    width:783px;
+    z-index:1;
+}
+#wistia_17_requireEmail_content {
+    background-image: radial-gradient(farthest-corner, rgba(0,0,0,.05), rgba(0,0,0,.2), rgba(0,0,0,0.9));
+    color:#fff;
+    font-family:WistiaOpenSans,Arial,sans-serif;
+    font-weight:300;
+    height:100%;
+    line-height:1em;
+    position:absolute;
+    top:0;
+    width:100%;
+    -webkit-transform: translateX(-783px);
+    -moz-transform: translateX(-783px);
+    -o-transform: translateX(-783px);
+    -ms-transform: translateX(-783px);
+    transform: translateX(-783px);
+}
+#wistia_17_requireEmail_content.visible {
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    transform: translateX(0px);
+    -webkit-transition: -webkit-transform .6s ease-in-out;-moz-transition: -moz-transform .6s ease-in-out;-o-transition: -o-transform .6s ease-in-out;-ms-transition: -ms-transform .6s ease-in-out;transition: transform .6s ease-in-out;
+}
+#wistia_17_requireEmail_content.hidden {
+    -webkit-transform: translateX(783px);
+    -moz-transform: translateX(783px);
+    -o-transform: translateX(783px);
+    -ms-transform: translateX(783px);
+    transform: translateX(783px);
+    -webkit-transition: -webkit-transform .6s ease-in-out;-moz-transition: -moz-transform .6s ease-in-out;-o-transition: -o-transform .6s ease-in-out;-ms-transition: -ms-transform .6s ease-in-out;transition: transform .6s ease-in-out;
+}
+#wistia_17_requireEmail_vcenter {
+    margin-top:50px;
+}
+#wistia_17_requireEmail_hcenter {
+    text-align:center;
+}
+#wistia_17_requireEmail_text_above {
+    font-size:34px;
+    font-weight:bold;
+    letter-spacing:1px;
+    line-height:1.4em;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:31px;
+}
+#wistia_17_requireEmail_text_below {
+    font-size:17px;
+    font-style:italic;
+    line-height:1.5em;
+    margin-top:34px;
+}
+#wistia_17_requireEmail_input_wrapper {
+    font-size:25px;
+    line-height:49px;
+}
+#wistia_17_requireEmail_error {
+    color:#fff;
+    display:none;
+    font-size:17px;
+    font-style:italic;
+    line-height:1.6em;
+    margin-top:17px;
+    text-align:center;
+    width:100%;
+}
+#wistia_17_requireEmail_error a {
+    color:#fff;
+}
+#wistia_17_requireEmail_skip {
+    background:url(http://fast.wistia.com/assets/images/turnstile/skip.png) no-repeat 0 0;
+    bottom:15px;
+    cursor:pointer;
+    display:none;
+    height:24px;
+    filter:alpha(opacity=80);
+    opacity:.8;
+    position:absolute;
+    right:19px;
+    width:57px;
+}
+#wistia_17_requireEmail_skip:hover {
+    filter:alpha(opacity=100);
+    opacity:1;
+}
+#wistia_17_requireEmail_rewatch {
+    background:url(http://fast.wistia.com/assets/images/turnstile/rewatch.png) no-repeat 0 0;
+    bottom:15px;
+    cursor:pointer;
+    display:none;
+    height:29px;
+    filter:alpha(opacity=80);
+    left:19px;
+    opacity:.8;
+    position:absolute;
+    width:33px;
+}
+#wistia_17_requireEmail_rewatch:hover {
+    filter:alpha(opacity=100);
+    opacity:1;
+}
+#wistia_17_requireEmail_input_wrapper {
+    word-spacing: -0.25em;
+}
+#wistia_17_requireEmail_email,
+#wistia_17_requireEmail_first_name,
+#wistia_17_requireEmail_last_name {
+    border:0 !important;
+    border-radius:0;
+    height:49px;
+    font-size:20px;
+    font-family:WistiaOpenSans,Arial,sans-serif;
+    line-height:29px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    outline:none;
+    padding:0 10px !important;
+    box-sizing: border-box;
+    vertical-align:top;
+}
+#wistia_17_requireEmail_email {
+    width:313px;
+}
+#wistia_17_requireEmail_name_inputs {
+    display: block;
+}
+#wistia_17_requireEmail_first_name {
+    margin-right: 10px;
+}
+#wistia_17_requireEmail_first_name,
+#wistia_17_requireEmail_last_name {
+    width: 193px
+}
+#wistia_17_requireEmail_first_name.example,
+#wistia_17_requireEmail_last_name.example,
+#wistia_17_requireEmail_email.example {
+    color:#777;
+}
+#wistia_17_requireEmail_submit {
+    background:#34b16c;
+    border:0;
+    border-radius:0;
+    color:#ffffff;
+    cursor:pointer;
+    display:inline-block;
+    *display:inline;
+    font-family:WistiaOpenSans,Arial,sans-serif;
+    font-size:20px;
+    font-weight:600;
+    height:49px;
+    width: 103px;
+    letter-spacing:2px;
+    line-height:49px;
+    margin:0;
+
+    outline:none;
+    padding: 0;
+    text-align:center;
+    text-shadow:none;
+    text-transform:uppercase;
+    vertical-align:top;
+    zoom:1;
+}
+#wistia_17_requireEmail_submit:hover {
+    background:#209d58;
+}

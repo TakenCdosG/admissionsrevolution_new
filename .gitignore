@@ -1,0 +1,64 @@
+# WordPress #
+############
+wp-config-local.php
+wp-content/uploads
+wp-content/blogs.dir/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+sitemap.xml
+sitemap.xml.gz
+*.log
+.idea
+.htaccess
+
+/adminftp
+/blog
+/tmp_page
+error_log
+sucuri-4dff9c8757a80b6047aef9eb65f9ab9f.php
+test.php
+/test
+wp-admin/error_log
+wp-content/themes/wpex-elegant/error_log
+
+
+# @TODO writable paths
+wp-content/cache/
+wp-content/backups/
+
+
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.bz2
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.tgz
+
+# Logs and databases #
+######################
+*.log
+*.sql
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+._*
+
+# Vim generated files #
+######################
+*.un~
+
+# SASS #
+##########
+.sass-cache
