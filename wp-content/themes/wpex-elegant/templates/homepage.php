@@ -29,7 +29,7 @@ $url = home_url();
                             <div class="triangle"></div>
                         </div>
                     </div>
-                    <a class="free-trial" href="<?php echo $url; ?>/membership-account/membership-checkout/?level=4">FREE TRIAL</a>
+                    <a class="free-trial" href="<?php echo $url; ?>/membership-account/membership-checkout/?level=15">FREE TRIAL</a>
                 </div>
                 <div id="cover_all"></div>
                 <div id="main-image"></div>
