@@ -5598,7 +5598,7 @@ p.required-form-field{
 }
 
 .home_third_box .col-md-8{
-    width: 56%;
+    width: 50%;
 }
 
 .home_third_box .col-md-4{
@@ -5661,6 +5661,7 @@ p.required-form-field{
 .home_third_box ul {
     list-style: disc;
     text-align: left;
+    margin-left: 20px;
 
 }
 
