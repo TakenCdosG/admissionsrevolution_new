@@ -40,4 +40,7 @@ get_header();
     </div><!-- #content -->
     <?php get_sidebar(); ?>
 </div><!-- #primary -->
+    <!-- #futuredin -->
+<?php include('templates/featured_in.php') ?>
+    <!-- #end futuredin -->
 <?php get_footer(); ?>

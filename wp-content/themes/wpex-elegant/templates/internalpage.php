@@ -36,4 +36,7 @@ get_header();
         </div><!-- #content -->
     </div><!-- #primary -->
 </div>
+    <!-- #futuredin -->
+<?php include('featured_in.php') ?>
+    <!-- #end futuredin -->
 <?php get_footer(); ?>

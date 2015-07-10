@@ -10,7 +10,7 @@ get_header();
 $url = home_url();
 ?>
 <div id="primary" class="content-area clr">
-    <div id="content" class="site-content" role="main">
+    <!--<div id="content" class="site-content" role="main">
 
         <?php $background_video = get_field('background_video'); ?>
         <?php $overlay_video = get_field('overlay_video'); ?>
@@ -39,7 +39,67 @@ $url = home_url();
             </div>
         </div>
 
-    </div><!-- #content -->
+    </div> -->
+
+    <!-- #content -->
+
+    <div class="home_first_box">
+        <?php $content_left_second_box = get_field('content_left_home_first_box'); ?>
+        <?php $right_image_second_box = get_field('right_image_home_first_box'); ?>
+        <table>
+            <tbody>
+            <tr>
+                <td class="td-content-left">
+                    <div class="content-left">
+                        <article class="homepage-wrap clr">
+                            <?php echo $content_left_second_box; ?>
+                        </article><!-- #Content-wrap -->
+                    </div>
+                </td>
+                <td class="td-content-right" style="background-image:url(<?php echo $right_image_second_box; ?>); background-repeat: no-repeat; background-position: right top; background-size: cover;">
+                    <div class="content-right">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="arrow_line" style="margin: auto;position: absolute; width: 100%; z-index: 99;background-image: url(<?php echo get_template_directory_uri(); ?>/images/arro_line_get_informed.png); height: 20px;"></div>
+    </div>
+
+    <div class="home_second_box" >
+        <?php $title_home_second_box = get_field('title_home_second_box'); ?>
+        <?php $image_left_home_second_box = get_field('image_left_home_second_box'); ?>
+        <?php $content_right_home_second_box = get_field('content_right_home_second_box'); ?>
+        <div class='container'>
+                <div class="col-md-12">
+                   <h1><?php echo $title_home_second_box; ?></h1>
+                </div>
+                <div class="col-md-8">
+                    <img src="<?php echo $image_left_home_second_box; ?>" alt="" class="img-responsive">
+                </div>
+                <div class="col-md-4">
+                    <?php echo $content_right_home_second_box; ?>
+                </div>
+        </div>
+    </div>
+
+    <div class="home_third_box" >
+        <?php $title_home_third_box = get_field('title_home_third_box'); ?>
+        <?php $video_home_third_box = get_field('video_home_third_box'); ?>
+        <?php $content_home_third_box = get_field('content_home_third_box'); ?>
+        <div class='container'>
+            <div class="col-md-12">
+                <h1><?php echo $title_home_third_box; ?></h1>
+            </div>
+            <div class="col-md-4">
+                <?php echo $content_home_third_box; ?>
+            </div>
+            <div class="col-md-8">
+                <iframe width="80%" height="315" src="<?php echo $video_home_third_box; ?>" frameborder="0" allowfullscreen=""></iframe>
+
+            </div>
+        </div>
+    </div>
 
     <div class="first-box">
         <div class='container'>
@@ -278,7 +338,11 @@ $url = home_url();
             </div>
         </div>
     </div>
+    <!-- #futuredin -->
+    <?php include('featured_in.php') ?>
+    <!-- #end futuredin -->
     <div class="fifth-box">
+        <div class="arrow_line" style="margin: auto;position: absolute; width: 100%; z-index: 99;background-image: url(<?php echo get_template_directory_uri(); ?>/images/arro_line_get_informed.png); height: 20px;"></div>
         <?php $title_fifth_box = get_field('title_fifth_box'); ?>
         <?php $bottom_text_fifth_box = get_field('bottom_text_fifth_box'); ?>
         <?php $bottom_link_fifth_box = get_field('bottom_link_fifth_box'); ?>
@@ -296,7 +360,9 @@ $url = home_url();
                 </tbody>
             </table>
         </div>
+
     </div>
+    <div class="arrow_line" style="margin: auto;position: absolute; width: 100%; z-index: 99;background-image: url(<?php echo get_template_directory_uri(); ?>/images/arro_line_get_informed.png); height: 20px;"></div>
 </div><!-- #primary -->
 
 <!-- Begin Home Video Top -->

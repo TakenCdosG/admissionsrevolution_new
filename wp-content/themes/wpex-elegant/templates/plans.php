@@ -139,6 +139,9 @@ get_header();
         </div>
     </div>
     <!-- #End third-box content -->
+    <!-- #futuredin -->
+        <?php include('featured_in.php') ?>
+    <!-- #end futuredin -->
     <!-- #fourth-box content -->
     <div class="fourth-box">
         <div class="arrow_line" style="margin: auto;position: absolute; width: 100%; z-index: 99;background-image: url(<?php echo get_template_directory_uri(); ?>/images/arro_line_get_informed.png); height: 20px;"></div>

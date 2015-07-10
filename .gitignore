@@ -22,6 +22,8 @@ sucuri-4dff9c8757a80b6047aef9eb65f9ab9f.php
 test.php
 /test
 /updates
+
+error_log
 wp-admin/error_log
 wp-content/themes/wpex-elegant/error_log
 

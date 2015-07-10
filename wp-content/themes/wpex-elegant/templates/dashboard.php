@@ -61,6 +61,7 @@ get_header("dashboard");
     </div>
 </div>
 <!-- END CONTENT -->
+
 <?php
 get_footer('dashboard');
 ?>

@@ -255,6 +255,9 @@ get_header();
     </div>
     <!-- #End fifth-box content -->
     <div class="clearfix"></div>
+    <!-- #futuredin -->
+    <?php include('featured_in.php') ?>
+    <!-- #end futuredin -->
     <!-- #Sixth-box content -->
     <div class="sixth-box">
         <?php $text_about_sixth_box = get_field('text_about_sixth_box'); ?>
