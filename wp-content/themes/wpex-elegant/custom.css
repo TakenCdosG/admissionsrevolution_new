@@ -5437,7 +5437,7 @@ p.required-form-field{
 
 .home_first_box table td.td-content-left{
     background: #002c51;
-    width: 30%;
+    width: 50%;
     min-width: 326px;
     max-width: 450px;
     min-height: 400px;
@@ -5447,7 +5447,7 @@ p.required-form-field{
 }
 
 .home_first_box table td.td-content-left .homepage-wrap{
-    padding: 20px 20px 20px 20%;
+    padding: 20px 20px 20px 30%;
 }
 
 @media only screen and (max-width: 479px) {
@@ -5476,7 +5476,7 @@ p.required-form-field{
 }
 
 .home_first_box table td.td-content-right{
-    width: 70%;
+    width: 50%;
     background: #002c51;
 }
 
@@ -5653,6 +5653,9 @@ p.required-form-field{
         width: 80%;
         float: inherit;
         margin: 0 auto;
+    }
+    .home_first_box table td.td-content-left .homepage-wrap {
+        padding: 20px 20px 20px 12%;
     }
 }
 
