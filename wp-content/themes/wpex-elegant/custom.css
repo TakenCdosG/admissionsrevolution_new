@@ -5437,7 +5437,7 @@ p.required-form-field{
 
 .home_first_box table td.td-content-left{
     background: #002c51;
-    width: 40%;
+    width: 30%;
     min-width: 326px;
     max-width: 450px;
     min-height: 400px;
@@ -5476,7 +5476,7 @@ p.required-form-field{
 }
 
 .home_first_box table td.td-content-right{
-    width: 50%;
+    width: 70%;
     background: #002c51;
 }
 
