@@ -5420,6 +5420,11 @@ p.required-form-field{
     margin: 0px 0px 10px 0px;
     line-height: 69px;
 }
+@media only screen and (max-width: 520px){
+    .featured-in .symple-column{
+        margin-bottom: 40px;
+    }
+}
 
 
 /* HOME BLOCKS */
@@ -5471,7 +5476,7 @@ p.required-form-field{
 }
 
 
-.home_first_box table td.td-content-left .summary strong{
+.home_first_box table td.td-content-left .summary strong, .home_third_box strong{
     color: #FFFFFF;
 }
 
