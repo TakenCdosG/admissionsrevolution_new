@@ -5620,7 +5620,7 @@ p.required-form-field{
 
 .home_second_box h1,.home_third_box h1 {
     color: #FFF;
-    font-size: 70px;
+    font-size: 60px;
     text-align: center;
     font-weight: bold;
     font-family: 'futura-pt-condensed';
@@ -5696,4 +5696,13 @@ p.required-form-field{
     font-family: 'futura-pt-condensed';
     display: inline;
     position: relative;
+}
+
+@media only screen and (max-width: 479px) {
+    .home_second_box h1, .home_third_box h1 {
+        font-size: 50px;
+    }
+    .home_first_box .content-left .box-title h1, .home_third_box .box-title h1{
+        font-size: 40px;
+    }
 }
