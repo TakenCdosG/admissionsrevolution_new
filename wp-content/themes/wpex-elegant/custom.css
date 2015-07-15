@@ -5524,6 +5524,7 @@ p.required-form-field{
 .home_first_box ul{
     list-style: disc;
     text-align: left;
+    margin-left: 20px;
 }
 
 .home_first_box table .box-content a {
@@ -5632,7 +5633,7 @@ p.required-form-field{
 
 .home_second_box .container, .home_third_box .container{
     width: inherit;
-    max-width: 1370px;
+    max-width: 1330px;
 }
 
 
