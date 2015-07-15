@@ -5630,8 +5630,10 @@ p.required-form-field{
 
 .home_second_box .container, .home_third_box .container{
     width: inherit;
-    max-width: 1520px;
+    max-width: 1370px;
 }
+
+
 .home_second_box strong {
     color: #002c51;
     font-family: 'futura-pt-condensed';
