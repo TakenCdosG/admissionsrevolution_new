@@ -15,9 +15,10 @@ get_header();
         <table>
             <tbody>
                 <tr>
-                    <td class="plans_background_top" style="background-image:url(<?php echo $background_top; ?>); background-repeat: no-repeat; background-position: right top; background-size: cover;">
+                    <td class="plans_background_top" >
                         <div class="content-feature-top">
-
+                            <h1></h><?php print get_field('title_plans_top'); ?></h1>
+                            <?php print get_field('content_plans_top'); ?>
                         </div>
                     </td>
                 </tr>
