@@ -95,7 +95,11 @@ $url = home_url();
                 <?php echo $content_home_third_box; ?>
             </div>
             <div class="col-md-8">
-                <iframe width="80%" height="315" src="<?php echo $video_home_third_box; ?>" frameborder="0" allowfullscreen=""></iframe>
+                <iframe src="//fast.wistia.net/embed/iframe/azrtz1kfl2"
+                        allowtransparency="true" frameborder="0" scrolling="no"
+                        class="wistia_embed" name="wistia_embed" allowfullscreen
+                        mozallowfullscreen webkitallowfullscreen oallowfullscreen
+                        msallowfullscreen width="100%" height="315"></iframe>
 
             </div>
         </div>
