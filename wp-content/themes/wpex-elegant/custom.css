@@ -3195,10 +3195,11 @@ a.red{
 .page-template-plans .first-box table {
     border-collapse: collapse;
     width: 100%;
-    min-height: 592px;
+    min-height: 342px;
     position: relative;
     display: block;
     height: 100%;
+    padding-bottom: 250px;
 }
 
 .page-template-plans .first-box table tbody{
@@ -3652,7 +3653,7 @@ a.red{
     .page-template-plans .first-box table {
         border-collapse: collapse;
         width: 100%;
-        min-height: 668px;
+        min-height: 900px;
         position: relative;
     }
 
@@ -3662,7 +3663,7 @@ a.red{
         font-weight: bold;
         font-family: 'futura-pt-condensed';
         text-align: center;
-        line-height: 1px;
+        line-height: 31px;
     }
 
     .page-template-plans .pricing-box .symple-pricing .pricing-cost {
@@ -3839,8 +3840,9 @@ a.red{
         min-height: 100%;
         border-collapse: collapse;
         width: 100%;
-        min-height: 650px;
+        min-height: 400px;
         position: relative;
+        padding-bottom: 150px;
     }
 }
 
@@ -4579,6 +4581,14 @@ input[type="submit"].orange{
         padding: 50px 0px 30px 0px;
         color: #fff;
     }
+
+
+        .page-template-plans .first-box table {
+            border-collapse: collapse;
+            width: 100%;
+            min-height: 1200px;
+            position: relative;
+        }
 }
 
 
@@ -4650,9 +4660,7 @@ input[type="submit"].orange{
         margin-bottom: 32px;
     }
 
-    div.content-feature-top {
-        line-height: 77px !important;
-    }
+
 
     .page-template-about .first-box table td.features_background_top {
         vertical-align: bottom;
@@ -5452,6 +5460,8 @@ p.required-form-field{
 .home_first_box{
     display: block;
     position: relative;
+    color: #FFFFFF;
+    text-align: left;
 }
 
 .home_first_box table{
