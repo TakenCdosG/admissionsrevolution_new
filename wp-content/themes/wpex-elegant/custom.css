@@ -624,6 +624,8 @@ ul#login-singup-menu-bottom li a{
     display: block;
     color: #00a0f0;
     margin: 0px 0px 30px;
+    line-height: 60px;
+    text-transform: none;
 }
 
 .first-box .content-feature-top{
