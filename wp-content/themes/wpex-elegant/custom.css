@@ -5540,6 +5540,10 @@ p.required-form-field{
     line-height: 48px;
 }
 
+.home_first_box .content-left .box-title p{
+    line-height: 28px;
+}
+
 .home_first_box .bottom_link{
     display: block;
     clear: both;
