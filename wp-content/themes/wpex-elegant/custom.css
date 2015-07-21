@@ -716,7 +716,6 @@ ul#login-singup-menu-bottom li a{
     background: #002c51;
     border-right: 1px solid #1B1B1B;
     width: 30%;
-    min-width: 320px;
     max-width: 450px;
     min-height: 400px;
     text-align: center;
@@ -726,6 +725,7 @@ ul#login-singup-menu-bottom li a{
 
 .second-box table td.td-content-left .homepage-wrap{
     padding: 20px;
+    max-width: 280px;
 }
 
 .second-box table td.td-content-left .content-left h2{
@@ -1158,6 +1158,12 @@ Footer social icons
 }
 /* Mobile (Landscape)
 ================================================== */
+@media only screen and (min-width: 480px){
+    .home_first_box table td.td-content-left .homepage-wrap .img-responsive{
+        display: none;
+    }
+}
+
 @media only screen and (min-width: 480px) and (max-width: 767px) {
     #header {
         text-align: left;
@@ -1166,6 +1172,7 @@ Footer social icons
         width: 90%;
         max-width: 90%;
     }
+
 
     .home .third-box .container .arrow_line_right, 
     .page-template-features .sixth-box .container .arrow_line_right
@@ -2293,6 +2300,10 @@ ul.menu_dashboard > li a:hover{
     .hello .overlayVideo{
         width: 100%!important;
         height: 100%!important;
+    }
+
+    .second-box table td.td-content-left .content-left h2{
+        font-size: 60px;
     }
 
 
@@ -5473,7 +5484,6 @@ p.required-form-field{
 .home_first_box table td.td-content-left{
     background: #002c51;
     width: 50%;
-    min-width: 326px;
     max-width: 450px;
     min-height: 400px;
     text-align: center;
