@@ -3401,7 +3401,12 @@ a.red{
     background: #fff;
     margin: 19px 0px 0px 0px;
     z-index: 165!important;
-    padding: 35px 0px 0px 0px;
+    padding: 36px 0px 0px 0px;
+}
+
+
+.page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_premium_pricing_header,.page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_starter_pricing_header{
+    min-height: 228px;
 }
 
 .page-template-plans .pricing-box .symple-column-right{
@@ -3666,8 +3671,8 @@ a.red{
     .page-template-plans .first-box table {
         border-collapse: collapse;
         width: 100%;
-        min-height: 900px;
         position: relative;
+        padding-bottom: 400px;
     }
 
     .page-template-plans .pricing-box .symple-pricing .pricing-name{
@@ -3703,7 +3708,11 @@ a.red{
         background: #fff;
         margin: 0px 0px 0px 0px;
         z-index: 165!important;
-        padding: 5px 0px 0px 0px;
+        padding: 6px 0px 0px 0px;
+    }
+
+    .page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_premium_pricing_header,.page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_starter_pricing_header{
+        min-height: 300px;
     }
 
     .page-template-plans .second-box .container .summary a {
@@ -4599,7 +4608,6 @@ input[type="submit"].orange{
         .page-template-plans .first-box table {
             border-collapse: collapse;
             width: 100%;
-            min-height: 1200px;
             position: relative;
         }
 }
@@ -4818,6 +4826,7 @@ a.monthly_pricing {
     font-size: 30px;
     font-weight: bold;
     font-family: 'futura-pt-condensed';
+    display: block;
 }
 a.pricing_active{
     color: #00a0f0;
@@ -5533,7 +5542,7 @@ p.required-form-field{
 
 .home_first_box .content-left .box-title h1{
     color: #fff;
-    font-size: 50px;
+    font-size: 60px;
     text-align: left;
     font-weight: bold;
     font-family: 'futura-pt-condensed';
@@ -5577,6 +5586,7 @@ p.required-form-field{
     list-style: disc;
     text-align: left;
     margin-left: 20px;
+    margin-top: 30px;
 }
 
 .home_first_box table .box-content a {
