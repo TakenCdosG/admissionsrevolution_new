@@ -3677,7 +3677,7 @@ a.red{
 
     .page-template-plans .pricing-box .symple-pricing .pricing-name{
         color: #00a0f0;
-        font-size: 33px;
+        font-size: 22px;
         font-weight: bold;
         font-family: 'futura-pt-condensed';
         text-align: center;
@@ -3712,7 +3712,7 @@ a.red{
     }
 
     .page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_premium_pricing_header,.page-template-plans .pricing-box .symple-pricing-header.yearly_plans_link_starter_pricing_header{
-        min-height: 300px;
+        min-height: 260px;
     }
 
     .page-template-plans .second-box .container .summary a {
