@@ -656,10 +656,19 @@ li.sidr-class-config-link ul.sidr-class-menu-settings-ul{
     background-image: url(../img/AR_bundles_icon_active.png);
 }
 
+/*
 .icon-mandarin {
     background-image: url(../img/AR_Mandarin_icon.png);
     width:26px!important;
     height:29px;
+}
+*/
+
+.icon-mandarin {
+    width: 26px!important;
+    height: 29px;
+    font-size: 21px!important;
+    line-height: 24px;
 }
 
 .icon-acceptance {
