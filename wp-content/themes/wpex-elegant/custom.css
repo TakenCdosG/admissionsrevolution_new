@@ -4487,6 +4487,10 @@ input[type="submit"].orange{
         position: relative;
     }
 
+    iframe.wistia_embed{
+        height: 160px !important;
+    }
+
     .page-template-plans span.show_on_mobile{
         font-size: 13px;
         margin: auto;
