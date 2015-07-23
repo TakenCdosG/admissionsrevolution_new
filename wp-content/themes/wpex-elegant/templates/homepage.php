@@ -99,7 +99,7 @@ $url = home_url();
                         allowtransparency="true" frameborder="0" scrolling="no"
                         class="wistia_embed" name="wistia_embed" allowfullscreen
                         mozallowfullscreen webkitallowfullscreen oallowfullscreen
-                        msallowfullscreen width="100%" height="315"></iframe>
+                        msallowfullscreen width="100%" height="370"></iframe>
 
             </div>
         </div>
