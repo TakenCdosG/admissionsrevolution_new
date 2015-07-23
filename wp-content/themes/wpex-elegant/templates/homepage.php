@@ -56,7 +56,7 @@ $url = home_url();
                         </article><!-- #Content-wrap -->
                     </div>
                 </td>
-                <td class="td-content-right" style="background-image:url(<?php echo $right_image_second_box; ?>); background-repeat: no-repeat; background-position: left top; background-size: cover;">
+                <td class="td-content-right" style="background-image:url(<?php echo $right_image_second_box; ?>); background-repeat: no-repeat; background-position: left top; ">
                     <div class="content-right">
                     </div>
                 </td>
