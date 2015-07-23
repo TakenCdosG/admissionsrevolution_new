@@ -200,7 +200,7 @@ $logo_img_collapse = get_theme_mod('wpex_logo_collapse');
                             </a>
                         </li>
                     <?php endif; ?>
-                        
+
                     <?php if (pmpro_hasMembershipLevel(array(6, 7)) || $chinese_premium || $pr_demo): ?>
                         <li class="start <?php if (is_page('bundles-and-bonuses')): ?>active<?php endif; ?> icon-bundles-and-bonuses_li">
                             <a href="<?php echo $site_url; ?>/bundles-and-bonuses/">
@@ -209,17 +209,17 @@ $logo_img_collapse = get_theme_mod('wpex_logo_collapse');
                             </a>
                         </li>
                     <?php endif; ?>
-                        
+
                     <?php //-> ONLY Chinese Bundles. ?>
                     <?php if ($chinese_bundles || $pr_demo || $chinese_premium): ?>
                         <li class="start <?php if (is_page('mandarin')): ?>active<?php endif; ?> icon-mandarin_li">
                             <a href="<?php echo $site_url; ?>/mandarin/">
-                                <i class="icon-mandarin"></i>
-                                <span class="title single-line">视频</span>
+                                <i class="icon-mandarin">视频</i>
+                                <span class="title single-line">Mandarin</span>
                             </a>
                         </li>
                     <?php endif; ?>
-                        
+
                     <li class="config-link <?php if (is_page('my-profile')): ?>active<?php endif; ?> " >
                         <a href="javascript:;" class="menu-settings-ul-link">
                             <i class="icon-settings"></i>
