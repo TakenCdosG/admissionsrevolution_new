@@ -700,6 +700,10 @@ ul#login-singup-menu-bottom li a{
     .left-box, .middle-box, .right-box{
         width: 33.33333333%;   
     }
+
+    .home .third-box{
+        padding-right: 180px;
+    }
 }
 
 .second-box{
@@ -800,11 +804,9 @@ ul#login-singup-menu-bottom li a{
 
 .home .third-box .container{
     position: relative;
+    width: 100%;
 }
 
-.home .third-box .container .arrow_line_right{
-
-}
 
 .third-box .td-content-left .left-box-content{
     margin: 100px 0px;
@@ -1291,6 +1293,7 @@ Footer social icons
 /* Mobile (Portrait only)
 ================================================== */
 @media only screen and (max-width: 479px) {
+
 
     .page-id-70 p.forgetmenot {
         margin-left: 0px!important;
