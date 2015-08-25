@@ -4612,11 +4612,11 @@ input[type="submit"].orange{
     }
 
 
-        .page-template-plans .first-box table {
-            border-collapse: collapse;
-            width: 100%;
-            position: relative;
-        }
+    .page-template-plans .first-box table {
+        border-collapse: collapse;
+        width: 100%;
+        position: relative;
+    }
 }
 
 
@@ -5769,4 +5769,24 @@ p.required-form-field{
     .home_first_box .content-left .box-title h1, .home_third_box .box-title h1{
         font-size: 40px;
     }
+}
+
+
+/*
+* Updates
+*/
+.symple-pricing .symple-pricing-header h5{
+    border: none;
+}
+
+.symple-pricing .symple-pricing-header{
+    background: transparent;
+    text-align: center;
+    padding: 20px 0;  
+}
+
+.symple-pricing .symple-pricing-content {
+    background: transparent;
+    font-size: 0.857em;
+    text-align: center;
 }
