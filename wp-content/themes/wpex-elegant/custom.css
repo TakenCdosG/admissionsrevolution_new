@@ -5790,3 +5790,7 @@ p.required-form-field{
     font-size: 0.857em;
     text-align: center;
 }
+
+.symple-pricing{
+    border: none;   
+}
