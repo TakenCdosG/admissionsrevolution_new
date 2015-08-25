@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Cron Manager
  * Description: Plugin that allow to view, remove, edit and add WP Cron tasks. 
- * Version: 1.4
+ * Version: 1.4.1
  * Author: Kuba Mikita
  * Author URI: http://www.wpart.pl/
  * License: GPL2
