@@ -8,12 +8,12 @@
 	//vars
 	global $wpdb;
 	if(isset($_REQUEST['s']))
-		$s = trim($_REQUEST['s']);
+		$s = sanitize_text_field(trim($_REQUEST['s']));
 	else
 		$s = "";
 
 	if(isset($_REQUEST['l']))
-		$l = $_REQUEST['l'];
+		$l = sanitize_text_field($_REQUEST['l']);
 	else
 		$l = false;
 
@@ -23,7 +23,7 @@
 	<form id="posts-filter" method="get" action="">
 	<h2>
 		<?php _e('Members List', 'pmpro');?>
-		<a target="_blank" href="<?php echo admin_url('admin-ajax.php');?>?action=memberslist_csv&s=<?php echo $s?>&l=<?php echo $l?>" class="add-new-h2"><?php _e('Export to CSV', 'pmpro');?></a>
+		<a target="_blank" href="<?php echo admin_url('admin-ajax.php');?>?action=memberslist_csv&s=<?php echo esc_attr($s);?>&l=<?php echo $l?>" class="add-new-h2"><?php _e('Export to CSV', 'pmpro');?></a>
 	</h2>
 	<ul class="subsubsub">
 		<li>
@@ -48,7 +48,7 @@
 	<p class="search-box">
 		<label class="hidden" for="post-search-input"><?php _e('Search Members', 'pmpro');?>:</label>
 		<input type="hidden" name="page" value="pmpro-memberslist" />
-		<input id="post-search-input" type="text" value="<?php echo $s?>" name="s"/>
+		<input id="post-search-input" type="text" value="<?php echo esc_attr($s);?>" name="s"/>
 		<input class="button" type="submit" value="<?php _e('Search Members', 'pmpro');?>"/>
 	</p>
 	<?php
@@ -61,7 +61,17 @@
 		if(isset($_REQUEST['limit']))
 			$limit = intval($_REQUEST['limit']);
 		else
-			$limit = 15;
+		{
+			/**
+			 * Filter to set the default number of items to show per page
+			 * on the Members List page in the admin.
+			 *
+			 * @since 1.8.4.5
+			 *
+			 * @param int $limit The number of items to show per page.
+			 */
+			$limit = apply_filters('pmpro_memberslist_per_page', 15);
+		}
 
 		$end = $pn * $limit;
 		$start = $end - $limit;
@@ -211,7 +221,7 @@
 							</td>
 							<td><?php echo $theuser->first_name?></td>
 							<td><?php echo $theuser->last_name?></td>
-							<td><a href="mailto:<?php echo $theuser->user_email?>"><?php echo $theuser->user_email?></a></td>
+							<td><a href="mailto:<?php echo esc_attr($theuser->user_email)?>"><?php echo $theuser->user_email?></a></td>
 							<?php do_action("pmpro_memberslist_extra_cols_body", $theuser);?>
 							<td>
 								<?php
@@ -248,7 +258,7 @@
 				{
 				?>
 				<tr>
-					<td colspan="9"><p><?php _e("No members found.", "pmpro");?> <?php if($l) { ?><a href="?page=pmpro-memberslist&s=<?php echo $s?>"><?php _e("Search all levels", "pmpro");?></a>.<?php } ?></p></td>
+					<td colspan="9"><p><?php _e("No members found.", "pmpro");?> <?php if($l) { ?><a href="?page=pmpro-memberslist&s=<?php echo esc_attr($s);?>"><?php _e("Search all levels", "pmpro");?></a>.<?php } ?></p></td>
 				</tr>
 				<?php
 				}

@@ -322,37 +322,60 @@ function pmpro_displayAds()
 	return $pmpro_display_ads;
 }
 
-function pmpro_next_payment($user_id = NULL, $order_status = "success")
+function pmpro_next_payment($user_id = NULL, $order_status = "success", $format = "timestamp")
 {
 	global $wpdb, $current_user;
 	if(!$user_id)
 		$user_id = $current_user->ID;
 
 	if(!$user_id)
-		return false;
-
-	//get last order
-	$order = new MemberOrder();
-	$order->getLastMemberOrder($user_id, $order_status);
-
-	//get current membership level
-	$level = pmpro_getMembershipLevelForUser($user_id);
-
-	if(!empty($order) && !empty($order->id) && !empty($level) && !empty($level->id) && !empty($level->cycle_number))
-	{
-		//last payment date
-		$lastdate = date("Y-m-d", $order->timestamp);
-
-		//next payment date
-		$nextdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP('" . $lastdate . "' + INTERVAL " . $level->cycle_number . " " . $level->cycle_period . ")");
-
-		return $nextdate;
-	}
+		$r = false;
 	else
 	{
-		//no order or level found, or level was not recurring
-		return false;
+		//get last order
+		$order = new MemberOrder();
+		$order->getLastMemberOrder($user_id, $order_status);
+
+		//get current membership level
+		$level = pmpro_getMembershipLevelForUser($user_id);
+
+		if(!empty($order) && !empty($order->id) && !empty($level) && !empty($level->id) && !empty($level->cycle_number))
+		{
+			//last payment date
+			$lastdate = date("Y-m-d", $order->timestamp);
+
+			//next payment date
+			$nextdate = $wpdb->get_var("SELECT UNIX_TIMESTAMP('" . $lastdate . "' + INTERVAL " . $level->cycle_number . " " . $level->cycle_period . ")");
+
+			$r = $nextdate;
+		}
+		else
+		{
+			//no order or level found, or level was not recurring
+			$r = false;
+		}
 	}
+	
+	/**
+	 * Filter the next payment date.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @param mixed $r false or the next payment date timestamp
+	 * @param int $user_id The user id to get the next payment date for
+	 * @param string $order_status Status or array of statuses to find the last order based on.
+	 */
+	$r = apply_filters('pmpro_next_payment', $r, $user_id, $order_status);
+	
+	//return in desired format
+	if($r === false)
+		return false;				//always return false when no date found
+	elseif($format == "timestamp")
+		return $r;
+	elseif($format == "date_format")
+		return date(get_option('date_format'), $r);
+	else
+		return date($format, $r);	//assume a PHP date format	
 }
 
 if(!function_exists("last4"))
@@ -381,39 +404,62 @@ if(!function_exists("hideCardNumber"))
 	}
 }
 
+//check for existing functions since we didn't use a prefix for this function
 if(!function_exists("cleanPhone"))
 {
+	/**
+	 * Function to remove special characters from a phone number.
+	 * NOTE: Could probably replace with preg_replace("[^0-9]", "", $phone)
+	 *
+	 * @since 1.0
+	 *	 
+	 * @param string $phone The phone number to clean.
+	 */
 	function cleanPhone($phone)
 	{
 		//if a + is passed, just pass it along
 		if(strpos($phone, "+") !== false)
 			return $phone;
-
 		//clean the phone
 		$phone = str_replace("-", "", $phone);
 		$phone = str_replace(".", "", $phone);
 		$phone = str_replace("(", "", $phone);
 		$phone = str_replace(")", "", $phone);
 		$phone = str_replace(" ", "", $phone);
-
 		return $phone;
 	}
 }
 
+//check for existing functions since we didn't use a prefix for this function
 if(!function_exists("formatPhone"))
 {
+	/**
+	 * Function to format a phone number.
+	 *
+	 * @since 1.0
+	 *	 
+	 * @param string $phone The phone number to format.
+	 */
 	function formatPhone($phone)
 	{
-		$phone = cleanPhone($phone);
+		$r = cleanPhone($phone);
 
-		if(strlen($phone) == 11)
-			return substr($phone, 0, 1) . " (" . substr($phone, 1, 3) . ") " . substr($phone, 4, 3) . "-" . substr($phone, 7, 4);
-		elseif(strlen($phone) == 10)
-			return "(" . substr($phone, 0, 3) . ") " . substr($phone, 3, 3) . "-" . substr($phone, 6, 4);
-		elseif(strlen($phone) == 7)
-			return substr($phone, 0, 3) . "-" . substr($phone, 3, 4);
-		else
-			return $phone;
+		if(strlen($r) == 11)
+			$r = substr($r, 0, 1) . " (" . substr($r, 1, 3) . ") " . substr($r, 4, 3) . "-" . substr($r, 7, 4);
+		elseif(strlen($r) == 10)
+			$r = "(" . substr($r, 0, 3) . ") " . substr($r, 3, 3) . "-" . substr($r, 6, 4);
+		elseif(strlen($r) == 7)
+			$r = substr($r, 0, 3) . "-" . substr($r, 3, 4);		
+		
+		/**
+		 * Filter to do more or less cleaning of phone numbers.
+		 *
+		 * @since 1.8.4.4
+		 *
+		 * @param string $r The formatted phone number.
+		 * @param string $phone The original phone number.
+		 */
+		return apply_filters('pmpro_format_phone', $r, $phone);
 	}
 }
 
@@ -623,7 +669,7 @@ function pmpro_changeMembershipLevel($level, $user_id = NULL, $old_level_status 
 
     //should we cancel their gateway subscriptions?
     $pmpro_cancel_previous_subscriptions = true;
-    if(isset($_REQUEST['cancel_membership']) && $_REQUEST['cancel_memberhip'] == false)
+    if(isset($_REQUEST['cancel_membership']) && $_REQUEST['cancel_membership'] == false)
         $pmpro_cancel_previous_subscriptions = false;
     $pmpro_cancel_previous_subscriptions = apply_filters("pmpro_cancel_previous_subscriptions", $pmpro_cancel_previous_subscriptions);
 
@@ -1405,10 +1451,15 @@ function pmpro_getLevel($level)
 		}
 	}
 	else
-	{
+	{		
 		global $wpdb;
-		$level_obj = $wpdb->get_row("SELECT * FROM $wpdb->pmpro_membership_levels WHERE name = '" . esc_sql($level) . "' LIMIT 1");
-		$level_id = $level_obj->id;
+		$level_obj = $wpdb->get_row("SELECT * FROM $wpdb->pmpro_membership_levels WHERE name = '" . esc_sql($level) . "' LIMIT 1");	
+		
+		if(!empty($level_obj))
+			$level_id = $level_obj->id;
+		else
+			return false;
+		
 		$pmpro_levels[$level_id] = $level_obj;
 		return $pmpro_levels[$level_id];
 	}
@@ -1609,6 +1660,25 @@ function pmpro_setMessage($message, $type, $force = false)
 	}
 }
 
+/**
+ * Show a a PMPro message set via pmpro_setMessage
+ *
+ * @since 1.8.5
+ */
+function pmpro_showMessage()
+{
+	global $pmpro_msg, $pmpro_msgt;
+	
+	if(!empty($pmpro_msg))
+	{
+	?>
+	<div class="<?php echo $pmpro_msgt;?>">
+		<p><?php echo $pmpro_msg;?></p>
+	</div>
+	<?php
+	}
+}
+
 //used in class definitions for input fields to see if there was an error
 function pmpro_getClassForField($field)
 {
@@ -1782,6 +1852,10 @@ function pmpro_is_ready()
 			else
 				$pmpro_gateway_ready = false;
 		}
+		elseif($gateway == "check")
+		{
+			$pmpro_gateway_ready = true;
+		}
 		else
 		{
 			$pmpro_gateway_ready = false;
@@ -1802,9 +1876,24 @@ function pmpro_is_ready()
 
 	//now check both
 	if($pmpro_gateway_ready && $pmpro_pages_ready)
-		return true;
+		$r = true;
 	else
-		return false;
+		$r = false;
+	
+	/**
+	 * Filter to determine if PMPro setup is complete or
+	 * if notices or warnings need to be shown in the PMPro settings.
+	 *
+	 * Note: The filter should return true or false and also set
+	 * the $pmpro_level_ready, $pmpro_gateway_ready, $pmpro_pages_ready global variabls.
+	 * 
+	 * @since 1.8.4.5
+	 *
+	 * @param bool $r ready?	 
+	 */	
+	$r = apply_filters('pmpro_is_ready', $r);
+	
+	return $r;
 }
 
 /**
@@ -1909,3 +1998,64 @@ function pmpro_isDateThisMonth($str)
 	else
 		return false;
 }
+
+/**
+ * Function to generate PMPro front end pages.
+ *
+ * @param array $pages {
+ *     Formatted as array($name => $title) or array(array('title'=>'The Title', 'content'=>'The Content'))
+ *
+ *     @type string $name Page name. (Letters, numbers, and underscores only.)
+ *     @type string $title Page title.
+ * }
+ * @return array $created_pages Created page IDs.
+ * @since 1.8.5
+ */
+function pmpro_generatePages($pages) {
+
+	global $pmpro_pages;
+
+	$pages_created = array();
+
+	if(!empty($pages)) {
+		foreach($pages as $name => $page) {
+
+			//does it already exist?
+			if(!empty($pmpro_pages[$name]))
+				continue;
+
+			//no id set. create an array to store the page info
+			if(is_array($page)) {
+				$title = $page['title'];
+				$content = $page['content'];
+			} else {
+				$title = $page;
+				$content = '[pmpro_' . $name . ']';
+			}
+			
+			$insert = array(
+				'post_title' => $title,
+				'post_status' => 'publish',
+				'post_type' => 'page',
+				'post_content' => $content,
+				'comment_status' => 'closed',
+				'ping_status' => 'closed'
+			);
+
+			//make non-account pages a subpage of account
+			if ($name != "account") {
+				$insert['post_parent'] = $pmpro_pages['account'];
+			}
+
+			//create the page
+			$pmpro_pages[$name] = wp_insert_post($insert);
+
+			//update the option too
+			pmpro_setOption($name . "_page_id", $pmpro_pages[$name]);
+			$pages_created[] = $pmpro_pages[$name];
+		}
+	}
+
+	return $pages_created;
+}
+

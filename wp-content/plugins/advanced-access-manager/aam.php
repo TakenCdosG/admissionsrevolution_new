@@ -3,7 +3,7 @@
 /**
   Plugin Name: Advanced Access Manager
   Description: Manage User and Role Access to WordPress Backend and Frontend.
-  Version: 2.8.6
+  Version: 2.9
   Author: Vasyl Martyniuk <support@wpaam.com>
   Author URI: http://www.wpaam.com
 
@@ -68,9 +68,6 @@ class aam {
             add_action('admin_print_scripts', array($this, 'printScripts'));
             add_action('admin_print_styles', array($this, 'printStyles'));
             
-            //add help menu
-            add_filter('contextual_help', array($this, 'contextualHelp'), 10, 3);
-
             //manager Admin Menu
             if (aam_Core_API::isNetworkPanel()) {
                 add_action('network_admin_menu', array($this, 'adminMenu'), 999);
@@ -319,24 +316,6 @@ class aam {
         return $pages;
     }
     
-    /**
-     * Contextual Help Menu
-     * 
-     * @param type $contextual_help
-     * @param type $screen_id
-     * @param type $screen
-     * 
-     * @return 
-     */
-    public function contextualHelp($contextual_help, $screen_id, $screen){
-        if ($this->isAAMScreen()){
-            $help = new aam_View_Help();
-            $help->content($screen);
-        }
-        
-        return $contextual_help;
-    }
-
     /**
      * Filter Navigation menu
      *
@@ -781,7 +760,6 @@ class aam {
                     AAM_MEDIA_URL . 'css/configpress.css', 
                     array('aam-common-style')
             );
-            wp_enqueue_style('aam-codemirror', AAM_MEDIA_URL . 'css/codemirror.css');
         }
 
     }
@@ -852,11 +830,7 @@ class aam {
             wp_localize_script('aam-admin', 'aamLocal', $localization);
         } elseif ($this->isAAMConfigPressScreen()) {
             wp_enqueue_script('jquery-ui-core');
-            wp_enqueue_script('jquery-effects-core');
-            wp_enqueue_script('jquery-effects-highlight');
             wp_enqueue_script('aam-admin', AAM_MEDIA_URL . 'js/configpress.js');
-            wp_enqueue_script('aam-codemirror', AAM_MEDIA_URL . 'js/codemirror.js');
-            wp_enqueue_script('aam-cmini', AAM_MEDIA_URL . 'js/properties.js');
 
             $localization = array(
                 'nonce' => wp_create_nonce('aam_ajax'),
