@@ -175,7 +175,7 @@ $url = home_url();
                 <tr>
                     <td class="td-content-left">
                         <div class="content-left">
-                            <article class="homepage-wrap clr">
+                            <article class="homepage-wrap clr aligncenter">
                                 <?php echo $content_left_second_box; ?>
                             </article><!-- #Content-wrap -->
                             <div class='bottom_link'>
