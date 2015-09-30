@@ -498,7 +498,7 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
     @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = @curl_exec($ch);
     @curl_close($ch);
-    echo $response;
+    //echo $response;
     //var_dump($user);
 }
 
