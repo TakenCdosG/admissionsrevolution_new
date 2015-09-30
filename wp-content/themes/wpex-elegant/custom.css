@@ -4482,7 +4482,7 @@ input[type="submit"].orange{
         position: relative;
     }
 
-    iframe.wistia_embed{
+    iframe.wistia_embed,.youtube{
         height: 160px !important;
     }
 
