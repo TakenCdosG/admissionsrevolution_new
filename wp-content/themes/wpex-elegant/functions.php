@@ -465,8 +465,8 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
 
 
     $user = get_userdata($user_id);
-    //var_dump($user);
-    
+
+
     $arr = array(
         'properties' => array(
             array(
@@ -475,11 +475,11 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
             ),
             array(
                 'property' => 'firstname',
-                'value' => 'Camilo'
+                'value' => $user->first_name
             ),
             array(
                 'property' => 'lastname',
-                'value' => 'Manrique'
+                'value' => $user->last_name
             ),
             array(
                 'property' => 'phone',
@@ -499,6 +499,7 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
     $response = @curl_exec($ch);
     @curl_close($ch);
     echo $response;
+    var_dump($user);
 }
 
 add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_register_form');
