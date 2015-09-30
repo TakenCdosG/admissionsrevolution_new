@@ -424,7 +424,9 @@ ul#login-singup-menu-bottom li a{
     font-size: 44px;
 }
 
-
+iframe.youtube{
+    max-width: 640px !important;
+}
 
 #wistia_17_requireEmail {
     cursor:default;
@@ -1492,6 +1494,7 @@ Footer social icons
         margin-bottom: 0px;
         margin-top: 35px;
     }
+
 
 
     #footer-widgets .span_1_of_3.col-1 {
