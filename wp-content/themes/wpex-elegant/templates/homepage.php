@@ -75,7 +75,8 @@ $url = home_url();
                    <h1><?php echo $title_home_second_box; ?></h1>
                 </div>
                 <div class="col-md-8">
-                    <iframe class="youtube aligncenter" width="100%" height="370" src="https://www.youtube.com/embed/BcncWmjoKyQ" frameborder="0" allowfullscreen></iframe>
+                    <!--<iframe class="youtube aligncenter" width="100%" height="370" src="https://www.youtube.com/embed/BcncWmjoKyQ" frameborder="0" allowfullscreen></iframe> -->
+                    <img src="<?php echo $image_left_home_second_box; ?>" alt="" class="img-responsive">
                 </div>
                 <div class="col-md-4">
                     <?php echo $content_right_home_second_box; ?>
