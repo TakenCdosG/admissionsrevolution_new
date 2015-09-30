@@ -459,3 +459,46 @@ function my_pmpro_registration_checks_require_code_to_register($pmpro_continue_r
 }
 
 add_filter("pmpro_registration_checks", "my_pmpro_registration_checks_require_code_to_register");
+
+//update the user after checkout
+function create_new_hubspot_contact_from_user_register_form($user_id) {
+
+
+    $user = get_userdata($user_id);
+    //var_dump($user);
+    
+    $arr = array(
+        'properties' => array(
+            array(
+                'property' => 'email',
+                'value' => $user->user_email
+            ),
+            array(
+                'property' => 'firstname',
+                'value' => 'Camilo'
+            ),
+            array(
+                'property' => 'lastname',
+                'value' => 'Manrique'
+            ),
+            array(
+                'property' => 'phone',
+                'value' => '555-1212'
+            )
+        )
+    );
+    $post_json = json_encode($arr);
+    $hapikey = '173f8289-baef-43bb-b2a1-224544d62cf4';
+    $endpoint = 'https://api.hubapi.com/contacts/v1/contact?hapikey=' . $hapikey;
+    $ch = @curl_init();
+    @curl_setopt($ch, CURLOPT_POST, true);
+    @curl_setopt($ch, CURLOPT_POSTFIELDS, $post_json);
+    @curl_setopt($ch, CURLOPT_URL, $endpoint);
+    @curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = @curl_exec($ch);
+    @curl_close($ch);
+    echo $response;
+}
+
+add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_register_form');
