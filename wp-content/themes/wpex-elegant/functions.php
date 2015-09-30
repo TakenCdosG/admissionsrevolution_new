@@ -499,7 +499,7 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
     $response = @curl_exec($ch);
     @curl_close($ch);
     echo $response;
-    var_dump($user);
+    //var_dump($user);
 }
 
 add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_register_form');
