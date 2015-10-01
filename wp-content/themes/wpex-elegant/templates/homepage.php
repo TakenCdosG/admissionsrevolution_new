@@ -77,6 +77,9 @@ $url = home_url();
                 <div class="col-md-8">
                     <iframe class="youtube aligncenter" width="100%" height="370" src="https://www.youtube.com/embed/BcncWmjoKyQ" frameborder="0" allowfullscreen></iframe>
 <!--                    <img src="--><?php //echo $image_left_home_second_box; ?><!--" alt="" class="img-responsive">-->
+                    <span class="text-under-video">Want to see Sara in action?<br/>
+
+<< Check out her video The Top 5 Admissions Trends for 2015 & 2016</span>
                 </div>
                 <div class="col-md-4">
                     <?php echo $content_right_home_second_box; ?>
@@ -241,9 +244,9 @@ $url = home_url();
             <div class="row top-category">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="easy-pie-chart">
-                        <a class="title" href="#">
+                        <span class="title">
                             <?php echo $title_fourth_box; ?>
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>

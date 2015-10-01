@@ -5670,6 +5670,17 @@ p.required-form-field{
     color: #FFFFFF;
     line-height: 18px;
 }
+.home_second_box .text-under-video{
+    font-family: "pt-sans",sans-serif;
+    font-size: 18px;
+    font-weight: lighter;
+    color: #FFFFFF;
+    display: block;
+    line-height: 26px;
+    max-width: 640px !important;
+    margin: 20px auto 0 auto;
+}
+
 
 .home_third_box .col-md-8{
     width: 50%;
