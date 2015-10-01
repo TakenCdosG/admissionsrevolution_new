@@ -651,6 +651,7 @@ iframe.youtube{
 .first-box .box-title{
     position: relative;
     text-align: center;
+    margin-top: 20px;
 }
 
 .first-box .box-title h1{
@@ -888,7 +889,7 @@ iframe.youtube{
 }
 
 .home .fourth-box{
-    background-color: #dedede;
+    background-color: #00a0f0;
 }
 
 .home .fourth-box .guides_free_videos{
