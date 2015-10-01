@@ -89,8 +89,6 @@
 <noscript>
 <img height="1" width="1" style="display:none;" alt="" src="https://analytics.twitter.com/i/adsct?txn_id=l61mk&p_id=Twitter&tw_…" />
 <img height="1" width="1" style="display:none;" alt="" src="//t.co/i/adsct?txn_id=l61mk&p_id=Twitter&tw_sale_amount=0&tw_order_quantity=0" /></noscript>
-<!-- Start of Leadin Embed -->
-<script type="text/javascript" src="//js.leadin.com/js/v1/1628111.js" id="LeadinEmbed-1628111" crossorigin="use-credentials" async defer></script>
-<!-- End of Leadin Embed -->
+
 </body>
 </html>
