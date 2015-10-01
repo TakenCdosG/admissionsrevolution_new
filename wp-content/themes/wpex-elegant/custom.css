@@ -5520,7 +5520,7 @@ p.required-form-field{
     font-family: 'futura-pt-condensed';
 }
 
-.home_first_box table td.td-content-left .summary{
+.home_first_box table td.td-content-left .summary,.home_second_box .summary{
     font-family: "pt-sans",sans-serif;
     font-size: 18px;
     font-weight: lighter;
