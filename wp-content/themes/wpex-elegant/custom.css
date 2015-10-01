@@ -5614,8 +5614,8 @@ p.required-form-field{
     text-align: left;
 }
 
-.page-template-homepage .home_second_box,.page-template-homepage .home_third_box {
-    background: #00a0f0;
+.page-template-homepage .home_second_box, .page-template-homepage .home_third_box {
+    background: #c7deec;
     clear: both;
     position: relative;
     display: table;
