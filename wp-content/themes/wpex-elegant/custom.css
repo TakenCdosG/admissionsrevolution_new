@@ -914,6 +914,7 @@ iframe.youtube{
 
 .fourth-box .easy-pie-chart a{
     color: white;
+
 }
 
 .home .col-lg-4 {
@@ -5707,12 +5708,18 @@ p.required-form-field{
 
 
 .home_second_box strong {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.home_second_box .title {
     color: #002c51;
     font-family: 'futura-pt-condensed';
     font-size: 34px;
     margin-top: 40px;
     display: block;
     margin-bottom: 14px;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 1280px) {
