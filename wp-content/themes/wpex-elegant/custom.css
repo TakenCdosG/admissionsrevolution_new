@@ -5584,7 +5584,7 @@ p.required-form-field{
     margin: auto;
     border-radius: 1px;
 }
-.home_first_box ul{
+.home_first_box ul, .home_second_box ul{
     list-style: disc;
     text-align: left;
     margin-left: 20px;
