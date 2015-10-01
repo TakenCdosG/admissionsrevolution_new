@@ -5624,6 +5624,10 @@ p.required-form-field{
     padding: 60px 0px;
 }
 
+.page-template-homepage .home_second_box .col-md-4{
+    line-height: 26px;
+}
+
 .page-template-homepage .home_third_box {
     background: #002c51;
     padding: 30px 0px;
