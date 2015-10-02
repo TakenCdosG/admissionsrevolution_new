@@ -503,3 +503,12 @@ function create_new_hubspot_contact_from_user_register_form($user_id) {
 }
 
 add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_register_form');
+
+
+function show_price_on_pmpro_applydiscountcode_return_js($discount_code, $discount_code_id, $level_id, $code_level){
+    ?>
+    console.log("code_level: "+code_level);
+    <?php
+}
+
+add_action('pmpro_applydiscountcode_return_js', 'show_price_on_pmpro_applydiscountcode_return_js');
