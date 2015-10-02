@@ -340,7 +340,7 @@ add_filter($tag = "tml_title", $function_to_add = "tml_title_filter", $priority 
 function wpse33008() {
     ?>
     <!-- Wistia Cod -->
-    <script src="//fast.wistia.com/static/integrations-hubspot-v1.js" async></script>
+    <script src="//fast.wistia.com/static/integrations-hubspot-v1.js" async xmlns="http://www.w3.org/1999/html"></script>
     <?php
 }
 
@@ -507,7 +507,7 @@ add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_registe
 
 function show_price_on_pmpro_applydiscountcode_return_js($discount_code, $discount_code_id, $level_id, $code_level){
     ?>
-
+    jQuery('#pmpro_message').append('<h2><strong>New Total: $'+code_level.initial_payment+'</strong></h2>');
     console.log("code_level: "+code_level);
     <?php
 }
