@@ -507,7 +507,7 @@ add_action('pmpro_after_checkout', 'create_new_hubspot_contact_from_user_registe
 
 function show_price_on_pmpro_applydiscountcode_return_js($discount_code, $discount_code_id, $level_id, $code_level){
     ?>
-    New Total: <?php echo var_dump($code_level); ?>
+
     console.log("code_level: "+code_level);
     <?php
 }
