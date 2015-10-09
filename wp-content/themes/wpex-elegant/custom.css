@@ -5493,6 +5493,11 @@ p.required-form-field{
     .featured-in .symple-column{
         margin-bottom: 40px;
     }
+    .symple-one-seventh{
+        width: 100%;
+        float: none;
+        margin-right: 0;
+    }
 }
 
 
