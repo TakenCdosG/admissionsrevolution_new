@@ -5502,6 +5502,9 @@ p.required-form-field{
         float: none;
         margin-right: 0;
     }
+    .featured-in .init-row{
+        padding-left: 0px;
+    }
 }
 
 
