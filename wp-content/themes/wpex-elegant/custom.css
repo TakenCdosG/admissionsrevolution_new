@@ -5489,6 +5489,10 @@ p.required-form-field{
     margin: 0px 0px 10px 0px;
     line-height: 69px;
 }
+
+.featured-in .init-row{
+    padding-left: 50px;
+}
 @media only screen and (max-width: 520px){
     .featured-in .symple-column{
         margin-bottom: 40px;
