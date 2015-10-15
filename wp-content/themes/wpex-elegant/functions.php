@@ -391,6 +391,11 @@ function go_home() {
     exit();
 }
 
+function redirect_after_cancel(){
+    wp_redirect('/membership-account/membership-levels/');
+    exit();
+}
+
 /*
   Delete the WordPress User When a Paid Memberships Pro Member Cancels His Account
   Requires PMPro v1.4+
@@ -418,7 +423,7 @@ function my_pmpro_after_change_membership_level($level_id, $user_id) {
             //add the delete hooks back in
             add_action('delete_user', 'pmpro_delete_user');
             add_action('wpmu_delete_user', 'pmpro_delete_user');
-            go_home();
+            redirect_after_cancel();
         }
     }
 }
@@ -513,3 +518,6 @@ function show_price_on_pmpro_applydiscountcode_return_js($discount_code, $discou
 }
 
 add_action('pmpro_applydiscountcode_return_js', 'show_price_on_pmpro_applydiscountcode_return_js');
+
+
+
