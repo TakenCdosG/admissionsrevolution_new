@@ -392,7 +392,7 @@ function go_home() {
 }
 
 function redirect_after_cancel(){
-    wp_redirect('/membership-account/membership-levels/');
+    wp_redirect('/account-cancellation/');
     exit();
 }
 
