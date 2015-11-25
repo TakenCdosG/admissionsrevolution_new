@@ -3436,7 +3436,8 @@ a.red{
 .page-template-plans .pricing-box .symple-column-left ul{
     margin: 157px 0px 0px 0px;
     background: #c7deec;
-    padding-top: 84px;
+    /*padding-top: 84px;*/
+    padding-top: 177px;
 }
 
 .page-template-plans .pricing-box .symple-column-middle ul,
