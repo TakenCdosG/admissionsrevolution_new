@@ -22,20 +22,22 @@
             </div>
 
             <div class="symple-column symple-one-seventh symple-column-middle   symple-all">
+                <a href="http://www.huffingtonpost.com/sara-shapiro-harberson/ " target="_blank"><img class=" size-full wp-image-1206 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/10/huff-post.png" alt="Huff Post" width="105" height="105" /></a></p>
+            </div>
+
+            <div class="symple-column symple-one-seventh  symple-column-middle  symple-all">
+                <a href="http://community.today.com/user/sara-harberson" target="_blank"><img class=" size-full wp-image-1207 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/10/badgeExternal_contributor.png" alt="ABC27_News" width="140" height="105" /></a></p>
+            </div>
+
+            <div class="symple-column symple-one-seventh symple-column-middle   symple-all">
                 <a href="http://www.businessinsider.com/" target="_blank"><img class=" size-full wp-image-1202 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/06/BusinessInsider.png" alt="BusinessInsider" width="212" height="86" /></a></p>
             </div>
 
-            <div class="symple-column symple-one-seventh symple-column-middle   symple-all">
+            <div class="symple-column symple-one-seventh symple-column-last symple-all">
                 <a href="http://abc27.com/" target="_blank"><img class=" size-full wp-image-1201 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/06/ABC27_News.png" alt="ABC27_News" width="105" height="105" /></a></p>
             </div>
 
-            <div class="symple-column symple-one-seventh symple-column-middle   symple-all">
-                <a href="http://www.huffingtonpost.com/" target="_blank"><img class=" size-full wp-image-1206 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/10/huff-post.png" alt="Huff Post" width="105" height="105" /></a></p>
-            </div>
 
-            <div class="symple-column symple-one-seventh symple-column-last   symple-all">
-                <a href="http://community.today.com/parentingteam" target="_blank"><img class=" size-full wp-image-1207 aligncenter" src="http://admissionsrevolution.com/wp-content/uploads/2015/10/badgeExternal_contributor.png" alt="ABC27_News" width="140" height="105" /></a></p>
-            </div>
         </div>
     </div>
 
