@@ -707,7 +707,7 @@ $pmpro_stripe_lite = apply_filters("pmpro_stripe_lite", !pmpro_getOption("stripe
                             });
                         </script>
                         <?php if ($pmpro_level->id != 6 && $pmpro_level->id != 7): ?>
-                            <p>Your card won't be charged for 7 days. If you cancel before then, your card won't be charged.</p><br/>
+                            <!-- <p>Your card won't be charged for 7 days. If you cancel before then, your card won't be charged.</p><br/> -->
                         <?php endif; ?>
                         <div class="pmpro_payment-account-number">
                             <label for="AccountNumber"><?php _e('Card Number', 'pmpro'); ?> *</label>
@@ -948,7 +948,7 @@ $pmpro_stripe_lite = apply_filters("pmpro_stripe_lite", !pmpro_getOption("stripe
 <?php elseif ($pmpro_level->id == 12): ?>
     <p class="info-text">You are also agreeing to our <a href="/wp-content/uploads/2015/04/Terms-of-Service-and-App-Use-Admissions-Revolution.pdf" target="_blank">Terms &amp; Conditions</a> and our <a href="/wp-content/uploads/2015/04/Website-Privacy-Policy-AR.pdf" target="_blank">Privacy Policy</a>.</p>
 <?php else: ?>
-    <p class="info-text">When click Submit and Checkout, your 7-day trial will begin and you won't be charged until your 7-day trial is over. You are also agreeing to our <a href="/wp-content/uploads/2015/04/Terms-of-Service-and-App-Use-Admissions-Revolution.pdf" target="_blank">Terms &amp; Conditions</a> and our <a href="/wp-content/uploads/2015/04/Website-Privacy-Policy-AR.pdf" target="_blank">Privacy Policy</a>.</p>
+    <p class="info-text">When you click Submit and Checkout you will be charged immediately. You are also agreeing to our <a href="/wp-content/uploads/2015/04/Terms-of-Service-and-App-Use-Admissions-Revolution.pdf" target="_blank">Terms &amp; Conditions</a> and our <a href="/wp-content/uploads/2015/04/Website-Privacy-Policy-AR.pdf" target="_blank">Privacy Policy</a>.</p>
 <?php endif; ?>
 <?php if ($gateway == "paypal" || $gateway == "paypalexpress") { ?>
     <script>
