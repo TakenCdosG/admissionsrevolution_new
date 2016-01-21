@@ -4,8 +4,10 @@ Plugin Name: Fluid Video Embeds
 Plugin URI: http://wordpress.org/extend/plugins/fluid-video-embeds/
 Description: Makes your YouTube and Vimeo auto-embeds fluid/full width.
 Author: jamie3d
-Version: 1.2.7
+Version: 1.2.9
 Author URI: http://jamie3d.com
+Text Domain: fluid-video-embeds
+Domain Path: /languages
 */
 
 // Include constants file
@@ -15,7 +17,7 @@ class FluidVideoEmbed{
     static $available_providers = array(
         'youtube',
         'vimeo'
-        );
+    );
 
     function __construct() {
         $this->namespace = 'fluid-video-embeds';
@@ -79,7 +81,7 @@ class FluidVideoEmbed{
         $this->iframe_before_src = '<iframe src="';
         $this->iframe_after_src = '" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
 
-        load_plugin_textdomain($this->namespace, false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain( 'fluid-video-embeds', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
         $this->_add_hooks();
     }
@@ -279,7 +281,7 @@ class FluidVideoEmbed{
         }
 
         $namespace = $this->namespace;
-        $page_title = $this->friendly_name . ' ' . __( 'Settings', $namespace );
+        $page_title = $this->friendly_name . ' ' . __( 'Settings', 'fluid-video-embeds' );
         $fve_style = $this->get_option( 'fve_style' );
 
         include( FLUID_VIDEO_EMBEDS_DIRNAME . "/views/options.php" );
@@ -416,14 +418,18 @@ class FluidVideoEmbed{
                     }
 
                     $iframe_url = '//www.youtube.com/embed/' . $this->meta['id'] . '?wmode=transparent&modestbranding=1&autohide=1&showinfo=0&rel=0';
+                    $iframe_url = apply_filters( 'fve_youtube_iframe_url', $iframe_url, $this->meta );
                     $permalink = '//www.youtube.com/watch?v=' . $this->meta['id'];
+                    $permalink = apply_filters( 'fve_youtube_permalink', $permalink, $this->meta );
                     $thumbnail = isset( $this->meta['full_image'] ) ? $this->meta['full_image'] : '';
                     break;
                     case 'vimeo':
                     $wrapper_padding = ( $this->meta['aspect'] * 100 ) . '%';
 
                     $iframe_url = '//player.vimeo.com/video/' . $this->meta['id'] . '?portrait=0&byline=0&title=0';
+                    $iframe_url = apply_filters( 'fve_vimeo_iframe_url', $iframe_url, $this->meta );
                     $permalink = '//vimeo.com/' . $this->meta['id'];
+                    $permalink = apply_filters( 'fve_vimeo_permalink', $permalink, $this->meta );
                     $thumbnail = isset( $this->meta['full_image'] ) ? $this->meta['full_image'] : '';
                     break;
                 }

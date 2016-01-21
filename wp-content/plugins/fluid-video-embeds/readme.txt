@@ -3,7 +3,7 @@ Contributors: jamie3d
 Donate Link: http://goo.gl/JTYF2
 Tags: video, youtube, vimeo, fluid, flexible, elastic, responsive, 100%, full width, embed, oEmbed
 Requires at least: 3.3
-Tested up to: 4.1
+Tested up to: 4.3.1
 Stable tag: trunk
 License: GPLv3
 
@@ -28,6 +28,17 @@ You can also use the `[fve]` shortcode:
 If you want to use the Fluid Video Embeds method in a php template file in your theme, you can use the do_shortcode method:
 
     <?php echo do_shortcode('[fve]http://youtu.be/oHg5SJYRHA0[/fve]'); ?>
+
+You can filter the YouTube and or Vimeo URLs like this if you want to customize them (like explicitly specifying the https scheme):
+
+    // Filter the iframe URL for Vimeo
+    add_filter( 'fve_vimeo_iframe_url', 'fve_vimeo_iframe_url', 10, 2 );
+    function fve_vimeo_iframe_url( $vimeo_iframe_url, $video_meta ) {
+      return 'https://player.vimeo.com/video/' . $video_meta['id'] . '?portrait=0&byline=0&title=0';
+    }
+
+Check the source to see all of the filters by searching for `apply_filters(`
+
 
 = How It Works =
 The Fluid Video Embeds plugin aims to cleanly display YouTube and Vimeo videos while allowing them to be fluid(elastic/felxible) as well. The technique for doing this is not very new (and is outlined in the credits links below), however I've added a bit of "sugar" to the mix. Since Vimeo and YouTube have robust, open APIs, I'm requesting information about each video server side (which is then cached) and used to determine the optimal aspect ratio for the video container.
@@ -62,6 +73,13 @@ You can't get the video dimensions (and thus aspect ratio) without doing some sl
 4. It also handles different aspect ratio videos from Vimeo quite gracefully. The only circumstance where I've seen black bars is when YouTube serves a 320p or 480p video for mobile.
 
 == Changelog ==
+= 1.2.9 =
+* You can now filter the video URLs and permalinks with `fve_youtube_iframe_url`, `fve_youtube_permalink`, etc.
+
+= 1.2.8 =
+* Updating translation text domain
+* Updating translations for es_ES and pt_BR
+
 = 1.2.7 =
 * Added https:// to certain endpoint and asset URLs in the plugin (better https support).
 * Added 16:9 override for Vimeo videos. (It seems some servers are unable to reach Vimeo's API).
@@ -112,6 +130,13 @@ Added `wmode=transparent&` to the YouTube embed URL. This prevents YouTube video
 = 1.0 =
 Initial release
 
+
+== Upgrade Notice ==
+= 1.2.9 =
+* Adds filters for the YouTube and Vimeo URLs
+
+= 1.2.8 =
+* Updating translations for es_ES and pt_BR
 
 == Upgrade Notice ==
 = 1.2.7 =

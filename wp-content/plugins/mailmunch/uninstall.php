@@ -32,3 +32,6 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 delete_option('mailmunch_user_token');
 delete_option('mailmunch_site_id');
+delete_option('mailmunch_activation_redirect');
+delete_option('mailmunch_activation_date');
+delete_option('mailmunch_dismiss_review_notice');

@@ -3,7 +3,7 @@ Contributors: leadin, sredmond
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.3
-Stable tag: 4.2.3
+Stable tag: 4.4.0
 
 Leadin is an easy-to-use marketing automation and lead tracking plugin for WordPress that helps you better understand your web site visitors.
 
@@ -55,7 +55,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/">help document
 Having trouble? Check out our <a href="http://support.leadin.com/" target="_blank">help documentation & support</a>
 
 == Frequently Asked Questions ==
-= <a href="http://support.leadin.com/article/13-frequently-asked-questions" target="_blank">Full FAQ Here</a> =
+= <a href="http://support.leadin.com/hc/en-us/articles/204965719-Frequently-Asked-Questions" target="_blank">Full FAQ Here</a> =
 
 == Screenshots ==
 
@@ -67,8 +67,20 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 
 == Changelog ==
 
-- Current version: 4.2.3
-- Current version release: 2015-08-20
+- Current version: 4.4.0
+- Current version release: 2015-12-14
+
+= 4.4.0 (2015.12.14)
+- Remove migration code
+
+= 4.3.2 (2015.12.02) =
+- Wordpress assets update
+
+= 4.3.1 (2015.11.26) =
+- Logo updates
+
+= 4.3.0 (2015.09.30) =
+- Load time improvements to the tracking script
 
 = 4.2.3 (2015.08.20) =
 - Support widget improvements
@@ -86,7 +98,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 - Preparatory work to send notification emails in the timezone WordPress is configured in
 
 = 4.1.1 (2015.07.14) =
-- Bug fix for upgraded installs from the plugin directory running through the migration process 
+- Bug fix for upgraded installs from the plugin directory running through the migration process
 
 = 4.1.0 (2015.07.10) =
 - Migration script added to move data from MySQL to Leadin Cloud
@@ -113,7 +125,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 
 - Added email connector sync to onboarding
 - Sources now check the UTM tags on the first page view visit
-- Privacy policy added to plugin 
+- Privacy policy added to plugin
 
 - Bug fixes
 - Fixed dismiss button conflict on WordPress notifications
@@ -160,7 +172,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 - Check if database options are set for subscribe preview button
 - Added in check for default leadin_options in case they were deleted and recreate them if they are not there
 - Add in checks for the contact lookups to account for default object warnings
-- 
+-
 
 = 3.1.3 (2015.02.19) =
 = Enhancements =
@@ -186,7 +198,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 = 3.1.1 (2014.01.20) =
 = Enhancements =
 - Added ability to toggle Leadin data access by user role
-- Hide Leadin nav menu item for user roles without access to Leadin data 
+- Hide Leadin nav menu item for user roles without access to Leadin data
 - Discontinued and disabled the beta program
 
 - Bug fixes
@@ -230,7 +242,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 = 2.2.9 (2014.01.20) =
 = Enhancements =
 - Added ability to toggle Leadin data access by user role
-- Hide Leadin nav menu item for user roles without access to Leadin data 
+- Hide Leadin nav menu item for user roles without access to Leadin data
 - Discountinued and disabled the beta program
 
 - Bug fixes
@@ -260,7 +272,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 - Added “tagged as” to the email subject lines
 
 - Bug fixes
-- Fixed bug where Leadin would add non-tagged emails to ESP lists when it was not supposed to do those contacts 
+- Fixed bug where Leadin would add non-tagged emails to ESP lists when it was not supposed to do those contacts
 
 = 2.2.5 (2014.11.20) =
 - Bug fixes
@@ -513,7 +525,7 @@ Having trouble? Check out our <a href="http://support.leadin.com/" target="_blan
 - MySQL query optimizations
 - Fixed bug with MySQL V5.0+ by adding default NULL values for insert statements on contacts table
 - Changed title for returning lead email notifications
-- Setting to change button label on 
+- Setting to change button label on
 
 = Enhancements =
 - Added ability to change button label on subscribe widget

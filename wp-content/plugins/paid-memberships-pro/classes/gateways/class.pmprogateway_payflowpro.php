@@ -242,6 +242,13 @@
 				$nvpStr .= "&CITY=" . $order->billing->city . "&STATE=" . $order->billing->state . "&BILLTOCOUNTRY=" . $order->billing->country . "&ZIP=" . $order->billing->zip . "&PHONENUM=" . $order->billing->phone;
 			}
 
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_authorize_nvpstr', $nvpStr, $this);
+
 			//for debugging, let's attach this to the class object
 			$this->nvpStr = $nvpStr;
 
@@ -267,6 +274,13 @@
 
 			//paypal profile stuff
 			$nvpStr="&ORIGID=" . $authorization_id;
+
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_void_nvpstr', $nvpStr, $this);
 
 			$this->httpParsedResponseAr = $this->PPHttpPost('V', $nvpStr);
 
@@ -315,6 +329,13 @@
 
 				$nvpStr .= "&CITY=" . $order->billing->city . "&STATE=" . $order->billing->state . "&BILLTOCOUNTRY=" . $order->billing->country . "&ZIP=" . $order->billing->zip . "&PHONENUM=" . $order->billing->phone;
 			}
+
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_charge_nvpstr', $nvpStr, $this);
 
 			$this->nvpStr = $nvpStr;
 			$this->httpParsedResponseAr = $this->PPHttpPost('S', $nvpStr);
@@ -432,6 +453,13 @@
 				$nvpStr .= "&CITY=" . $order->billing->city . "&STATE=" . $order->billing->state . "&BILLTOCOUNTRY=" . $order->billing->country . "&ZIP=" . $order->billing->zip . "&PHONENUM=" . $order->billing->phone;
 			}
 
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_subscribe_nvpstr', $nvpStr, $this);
+
 			$this->nvpStr = $nvpStr;
 			$this->httpParsedResponseAr = $this->PPHttpPost('R', $nvpStr);
 
@@ -474,6 +502,13 @@
 				$nvpStr .= "&CITY=" . $order->billing->city . "&STATE=" . $order->billing->state . "&BILLTOCOUNTRY=" . $order->billing->country . "&ZIP=" . $order->billing->zip . "&PHONENUM=" . $order->billing->phone;
 			}
 
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_update_nvpstr', $nvpStr, $this);
+
 			$this->nvpStr = $nvpStr;
 			$this->httpParsedResponseAr = $this->PPHttpPost('R', $nvpStr);
 
@@ -498,6 +533,13 @@
 
 			//paypal profile stuff
 			$nvpStr = "&ORIGPROFILEID=" . $order->subscription_transaction_id . "&ACTION=C";
+
+			/**
+			 * Filter NVP string
+			 *
+			 * @since 1.8.5.6
+			 */
+			$nvpStr = apply_filters('pmpro_payflow_cancel_nvpstr', $nvpStr, $this);
 
 			$this->nvpStr = $nvpStr;
 			$this->httpParsedResponseAr = $this->PPHttpPost('R', $nvpStr);
@@ -539,47 +581,29 @@
 			}
 
 			$version = urlencode('4');
-
-			// setting the curl parameters.
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
-			curl_setopt($ch, CURLOPT_VERBOSE, 1);
-
-			// turning off the server and peer verification(TrustManager Concept).
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_POST, 1);
-
+			
 			// NVPRequest for submitting to server
 			$nvpreq = "TRXTYPE=" . $methodName_ . "&TENDER=C&PARTNER=" . $PARTNER . "&VENDOR=" . $VENDOR . "&USER=" . $USER . "&PWD=" . $PWD . "&VERBOSITY=medium" . "&BUTTONSOURCE=" . urlencode(PAYPAL_BN_CODE) . $nvpStr_;
 
-			//$nvpreq = "TRXTYPE=" . urlencode($methodName_) . "&TENDER=C&PARTNER=" . urlencode($PARTNER) . "&VENDOR=" . urlencode($VENDOR) . "&USER=" . urlencode($USER) . "&PWD=" . urlencode($PWD) . "&VERBOSITY=medium" . $nvpStr_;
+			//post to PayPal
+			$response = wp_remote_post( $API_Endpoint, array(
+					'sslverify' => FALSE,
+					'body' => $nvpreq
+			    )
+			);
 
-			// setting the nvpreq as POST FIELD to curl
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+			if ( is_wp_error( $response ) ) {
+			   $error_message = $response->get_error_message();
+			   die( "methodName_ failed: $error_message" );
+			} else {
+				//extract the response details
+				$httpParsedResponseAr = array();
+				parse_str(wp_remote_retrieve_body($response), $httpParsedResponseAr);
 
-			// getting response from server
-			$httpResponse = curl_exec($ch);
-
-			if(empty($httpResponse)) {
-				exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
-			}
-
-			// Extract the RefundTransaction response details
-			$httpResponseAr = explode("&", $httpResponse);
-
-			$httpParsedResponseAr = array();
-			foreach ($httpResponseAr as $i => $value) {
-				$tmpAr = explode("=", $value);
-				if(sizeof($tmpAr) > 1) {
-					$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+				//check for valid response
+				if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('RESULT', $httpParsedResponseAr)) {
+					exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
 				}
-			}
-
-			if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('RESULT', $httpParsedResponseAr)) {
-				exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
 			}
 
 			return $httpParsedResponseAr;

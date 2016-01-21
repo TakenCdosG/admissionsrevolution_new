@@ -67,11 +67,14 @@ abstract class MWP_ServiceContainer_Abstract implements MWP_ServiceContainer_Int
 
     private $migration;
 
+    private $gelfPublisher;
+
     public function __construct(array $parameters = array())
     {
         $this->parameters = $parameters;
 
         $this->parameters += array(
+            'request_id'                          => null,
             // This plugin's main file absolute path.
             'worker_realpath'                     => null,
             // This plugin's "basename", ie. 'worker/init.php'.
@@ -88,11 +91,16 @@ abstract class MWP_ServiceContainer_Abstract implements MWP_ServiceContainer_Int
             'disable_mysql'                       => false,
             // Do not do self request on the website
             'disable_ping_back'                   => false,
+            // When was the logging started (timestamp)
+            'log_start'                           => false,
             // Log file to use for all worker logs.
             'log_file'                            => null,
             // GrayLog2 server to use for all worker logs.
             'gelf_server'                         => null,
+            // UDP port.
             'gelf_port'                           => null,
+            // TCP port.
+            'gelf_port_fallback'                  => null,
             // Capture errors in master response.
             'log_errors'                          => false,
             // Pad length used for progress message flushing.
@@ -566,4 +574,21 @@ abstract class MWP_ServiceContainer_Abstract implements MWP_ServiceContainer_Int
      * @return MWP_Migration_Migration
      */
     protected abstract function createMigration();
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getGelfPublisher()
+    {
+        if ($this->gelfPublisher === null) {
+            $this->gelfPublisher = $this->createGelfPublisher();
+        }
+
+        return $this->gelfPublisher;
+    }
+
+    /**
+     * @return Gelf_Publisher
+     */
+    protected abstract function createGelfPublisher();
 }
