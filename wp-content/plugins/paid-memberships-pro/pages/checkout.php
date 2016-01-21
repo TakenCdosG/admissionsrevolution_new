@@ -95,6 +95,7 @@
 
 	<?php if($pmpro_show_discount_code) { ?>
 	<script>
+		<!--
 		//update discount code link to show field at top of form
 		jQuery('#other_discount_code_a').attr('href', 'javascript:void(0);');
 		jQuery('#other_discount_code_a').click(function() {
@@ -158,6 +159,7 @@
 				});
 			}
 		});
+		-->
 	</script>
 	<?php } ?>
 
@@ -291,10 +293,14 @@
 			<tr>
 				<td>
 					<div>
-						<input type="radio" name="gateway" value="paypal" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
-							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with a Credit Card Here', 'pmpro');?></a> &nbsp;
-						<input type="radio" name="gateway" value="paypalexpress" <?php if($gateway == "paypalexpress") { ?>checked="checked"<?php } ?> />
-							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with PayPal', 'pmpro');?></a> &nbsp;
+						<span class="gateway_paypal">
+							<input type="radio" name="gateway" value="paypal" <?php if(!$gateway || $gateway == "paypal") { ?>checked="checked"<?php } ?> />
+							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with a Credit Card Here', 'pmpro');?></a>
+						</span>
+						<span class="gateway_paypalexpress">
+							<input type="radio" name="gateway" value="paypalexpress" <?php if($gateway == "paypalexpress") { ?>checked="checked"<?php } ?> />
+							<a href="javascript:void(0);" class="pmpro_radio"><?php _e('Check Out with PayPal', 'pmpro');?></a>
+						</span>
 					</div>
 				</td>
 			</tr>
@@ -532,6 +538,7 @@
 						?>
 						<input type="hidden" id="CardType" name="CardType" value="<?php echo esc_attr($CardType);?>" />
 						<script>
+							<!--
 							jQuery(document).ready(function() {
 									jQuery('#AccountNumber').validateCreditCard(function(result) {
 										var cardtypenames = {
@@ -553,6 +560,7 @@
 											jQuery('#CardType').val('Unknown Card Type');
 									});
 							});
+							-->
 						</script>
 						<?php
 						}
@@ -618,6 +626,7 @@
 		</table>
 	<?php } ?>
 	<script>
+		<!--
 		//checking a discount code
 		jQuery('#discount_code_button').click(function() {
 			var code = jQuery('#discount_code').val();
@@ -657,6 +666,7 @@
 				});
 			}
 		});
+		-->
 	</script>
 
 	<?php
@@ -795,6 +805,8 @@
 -->
 </script>
 <script>
-    //add javascriptok hidden field to checkout
-    jQuery("input[name=submit-checkout]").after('<input type="hidden" name="javascriptok" value="1" />');
+<!--
+//add javascriptok hidden field to checkout
+jQuery("input[name=submit-checkout]").after('<input type="hidden" name="javascriptok" value="1" />');
+-->
 </script>

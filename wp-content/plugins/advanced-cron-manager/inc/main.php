@@ -162,7 +162,6 @@ class ACMmain {
 					<h3>'.__('Logs', 'acm').'</h3>
 					<div class="inside placeholder-div">';
 						echo '<h3><a href="http://underdev.it/downloads/advanced-cron-manager-pro/" target="_blank">' . __( 'Log cron executions with Advanced Cron Manager PRO', 'acm' ) . '</a></h3>';
-						echo '<p>' . __( 'Until end of July <strike>$19.99</strike> $9.99! That\'s only 3¢/day!', 'acm' ) . '</p>';
 			echo	'</div>
 				</div>';
 

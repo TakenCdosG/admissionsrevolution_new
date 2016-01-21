@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Subscription Delays Addon 
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-subscription-delays/
 Description: Add a field to levels and discount codes to delay the start of a subscription by X days. (Add variable-length free trials to your levels.)
-Version: .4
+Version: .4.1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -121,7 +121,7 @@ function pmprosd_pmpro_profile_start_date($start_date, $order)
 		}
 	}
 		
-	apply_filters( 'pmprosd_modify_start_date', $start_date, $order, $subscription_delay );
+	$start_date = apply_filters( 'pmprosd_modify_start_date', $start_date, $order, $subscription_delay );
 	
 	return $start_date;
 }
@@ -175,7 +175,22 @@ add_filter('pmpro_next_payment', 'pmprosd_pmpro_next_payment', 10, 3);
 */
 function pmprosd_daysUntilDate($date)
 {
+	//replace vars
+	$Y = date("Y");
+	$Y2 = intval($Y) + 1;
+	$M = date("m");
+	if($M == 12)
+		$M2 = "01";
+	else
+		$M2 = str_pad(intval($M) + 1, 2, "0", STR_PAD_LEFT);
+
+	$searches = array("Y-", "Y2-", "M-", "M2-");
+	$replacements = array($Y . "-", $Y2 . "-", $M . "-", $M2 . "-");
+
+	$date = str_replace($searches, $replacements, $date);
+
 	$datetime = strtotime($date, current_time('timestamp'));
+
 	$today = current_time('timestamp');;
 	$diff = $datetime - $today;
 	if($diff < 0)
@@ -211,10 +226,18 @@ function pmprosd_level_cost_text($cost, $level)
 		$subscription_delay = get_option("pmpro_subscription_delay_" . $level->id, "");
 	}
 	
+	$find = array("Year.", "Month.", "Week.", "Year</strong>.", "Month</strong>.", "Week</strong>.", "Years.", "Months.", "Weeks.", "Years</strong>.", "Months</strong>.", "Weeks</strong>.", "payments.", "payments</strong>.");
+	$replace = array("Year", "Month", "Week", "Year</strong>", "Month</strong>", "Week</strong>", "Years", "Months", "Weeks", "Years</strong>", "Months</strong>", "Weeks</strong>", "payments", "payments</strong>");
+
 	if(!empty($subscription_delay) && is_numeric($subscription_delay))
 	{
-		$cost = str_replace(array("Year.", "Month.", "Week.", "Year</strong>.", "Month</strong>.", "Week</strong>."), array("Year", "Month", "Week", "Year</strong>", "Month</strong>", "Week</strong>"), $cost);		
+		$cost = str_replace($find, $replace, $cost);
 		$cost .= " after your <strong>" . $subscription_delay . " day trial</strong>.";
+	}
+	elseif(!empty($subscription_delay))
+	{
+		$cost = str_replace($find, $replace, $cost);
+		$cost .= " starting " . date_i18n(get_option("date_format"), strtotime($subscription_delay, current_time("timestamp"))) . ".";
 	}
  
 	return $cost;

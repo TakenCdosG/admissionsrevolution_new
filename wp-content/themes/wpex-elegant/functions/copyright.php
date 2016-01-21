@@ -10,6 +10,10 @@ if (!function_exists('wpex_copyright')) {
     function wpex_copyright() {
 
         $copy = get_theme_mod('wpex_copyright', 'Powered by <a href=\"http://www.wordpress.org\" title="WordPress" target="_blank">WordPress</a> and <a href=\"http://themeforest.net/user/WPExplorer?ref=WPExplorer" target="_blank" title="WPExplorer" rel="nofollow">WPExplorer Themes</a>');
+        $year = the_date('Y', $before = '', $after = '', $echo = FALSE);
+        $year = intval($year) + 1;
+        $patron = '[year]';
+        $copy  = str_replace($patron, $year, $copy);
         ?>
 
         <?php

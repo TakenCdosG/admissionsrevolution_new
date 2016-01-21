@@ -51,11 +51,11 @@ jQuery(document).ready(function($) {
         //get template data
         $data = {
             template: template,
-            action: 'pmproet_get_template_data'
+            action: 'pmproet_get_template_data',
+            security: $('input[name=security]').val()
         };
 
         $.post(ajaxurl, $data, function(response) {
-
             var template_data = JSON.parse(response);
 
             //show/hide stuff
@@ -65,7 +65,7 @@ jQuery(document).ready(function($) {
             $(".status").hide();
 
             //change disable text
-            if (template == 'email_header' || template === 'email_footer') {
+            if (template == 'header' || template === 'footer') {
 
                 $subject.hide();
 				$testemail.hide();
@@ -99,12 +99,14 @@ jQuery(document).ready(function($) {
 //        $(".controls").hide();
         $("#submit_template_data").attr("disabled", true);
         $(".status").hide();
+        console.log(template);
 
         $data = {
             template: template,
             subject: $("#email_template_subject").val(),
             body: $("#email_template_body").val(),
-            action: 'pmproet_save_template_data'
+            action: 'pmproet_save_template_data',
+            security: $('input[name=security]').val()
         };
         $.post(ajaxurl, $data, function(response) {
             if(response != 0) {
@@ -130,7 +132,8 @@ jQuery(document).ready(function($) {
 
         $data = {
             template: template,
-            action: 'pmproet_reset_template_data'
+            action: 'pmproet_reset_template_data',
+            security: $('input[name=security]').val()
         };
         $.post(ajaxurl, $data, function(response) {
             var template_data = $.parseJSON(response);
@@ -147,7 +150,8 @@ jQuery(document).ready(function($) {
         data = {
             template: template,
             action: 'pmproet_disable_template',
-            disabled: $("#email_template_disable").is(":checked")
+            disabled: $("#email_template_disable").is(":checked"),
+            security: $('input[name=security]').val()
         };
 
         $.post(ajaxurl, data, function(response) {
@@ -187,7 +191,8 @@ jQuery(document).ready(function($) {
         data = {
             template: template,
             email: $("#test_email_address").val(),			
-            action: 'pmproet_send_test'
+            action: 'pmproet_send_test',
+            security: $('input[name=security]').val()
         };
 
         $.post(ajaxurl, data, function(success) {

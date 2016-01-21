@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: PMPro Sponsored Members
+Plugin Name: Paid Memberships Pro - Sponsored Members Add On
 Plugin URI: http://www.paidmembershipspro.com/add-ons/pmpro-sponsored-members/
 Description: Generate discount code for a main account holder to distribute to sponsored members.
-Version: .4.3
+Version: .5.1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -104,12 +104,12 @@ function pmprosm_getValuesBySponsoredLevel($level_id)
 	{
 		if(is_array($values['sponsored_level_id']))
 		{
-			if(in_array($key, $values['sponsored_level_id']))
+			if(in_array($level_id, $values['sponsored_level_id']))
 				return $pmprosm_sponsored_account_levels[$key];
 		}
 		else
 		{
-			if($values['sponsored_level_id'] == $key)
+			if($values['sponsored_level_id'] == $level_id)
 				return $pmprosm_sponsored_account_levels[$key];
 		}
 	}
@@ -166,8 +166,8 @@ function pmprosm_pmpro_after_change_membership_level($level_id, $user_id)
 				$code = "S" . pmpro_getDiscountCode($user_id); 	//seed parameter added in version 1.7.6
 			else
 				$code = "S" . pmpro_getDiscountCode();
-			$starts = date("Y-m-d");
-			$expires = date("Y-m-d", strtotime("+1 year"));
+			$starts = date("Y-m-d", current_time("timestamp"));
+			$expires = date("Y-m-d", strtotime("+1 year", current_time("timestamp")));
 			
 			//check for seats
 			if(isset($_REQUEST['seats']))
@@ -193,8 +193,40 @@ function pmprosm_pmpro_after_change_membership_level($level_id, $user_id)
 					
 				foreach($sponsored_levels as $sponsored_level)
 				{
-					$sqlQuery = "INSERT INTO $wpdb->pmpro_discount_codes_levels (code_id, level_id, initial_payment, billing_amount, cycle_number, cycle_period, billing_limit, trial_amount, trial_limit, expiration_number, expiration_period) VALUES('" . esc_sql($code_id) . "', '" . esc_sql($sponsored_level) . "', '0', '0', '0', 'Month', '0', '0', '0', '0', 'Month')";
-					$wpdb->query($sqlQuery);										
+					//default values for discount code; everything free
+					$discount_code = array(
+						'code_id'=>esc_sql($code_id),
+						'level_id'=>esc_sql($sponsored_level),
+						'initial_payment'=>'0',
+						'billing_amount'=>'0',
+						'cycle_number'=>'0',
+						'cycle_period'=>"'Month'",
+						'billing_limit'=>'0',
+						'trial_amount'=>'0',
+						'trial_limit'=>'0',
+						'expiration_number'=>'0',
+						'expiration_period' => "'Month'"
+					);
+
+					//allow override of the discount code values by setting it in the pmprosm_sponsored_account_levels array
+					if(!empty($pmprosm_values['discount_code']))
+						foreach($discount_code as $col => $value)
+							if(isset($pmprosm_values['discount_code'][$col]))
+								$discount_code[$col] = $pmprosm_values['discount_code'][$col];
+
+					$sqlQuery = "INSERT INTO $wpdb->pmpro_discount_codes_levels (code_id, 
+																				 level_id, 
+																				 initial_payment, 
+																				 billing_amount, 
+																				 cycle_number, 
+																				 cycle_period, 
+																				 billing_limit, 
+																				 trial_amount, 
+																				 trial_limit, 
+																				 expiration_number, 
+																				 expiration_period) 
+																VALUES(" . implode(",", $discount_code) . ")";
+					$wpdb->query($sqlQuery);
 				}
 			}
 		}	
@@ -529,10 +561,16 @@ function pmprosm_pmpro_registration_checks($pmpro_continue_registration)
 
 	//level = PMPROSM_SPONSORED_ACCOUNT_LEVEL and there is no discount code, then show an error message
 	global $pmpro_level, $discount_code, $wpdb;
+	
 	if(pmprosm_isSponsoredLevel($pmpro_level->id) && empty($discount_code) && !pmprosm_isMainLevel($pmpro_level->id))
 	{
-		pmpro_setMessage(__("You must use a valid discount code to register for this level.", "pmpro_sponsored_members"), "pmpro_error");
-		return false;
+		$pmprosm_values = pmprosm_getValuesBySponsoredLevel($pmpro_level->id);
+
+		if(empty($pmprosm_values) || !isset($pmprosm_values['discount_code_required']) || !empty($pmprosm_values['discount_code_required']))
+		{
+			pmpro_setMessage(__("You must use a valid discount code to register for this level.", "pmpro_sponsored_members"), "pmpro_error");
+			return false;
+		}
 	}
 		
 	//if a discount code is being used, check that the main account is active
@@ -1445,7 +1483,7 @@ function pmprosm_pmpro_email_body($body, $pmpro_email)
 	global $wpdb, $pmprosm_sponsored_account_levels;
  
 	//only checkout emails, not admins
-	if(strpos($pmpro_email->template, "checkout") !== false && strpos($pmpro_email->template, "admin") == false)
+	if(strpos($pmpro_email->template, "checkout") !== false && strpos($pmpro_email->template, "admin") === false && strpos($pmpro_email->template, "debug") === false)
 	{ 
 		//get the user_id from the email
 		$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_email = '" . $pmpro_email->data['user_email'] . "' LIMIT 1");
@@ -1506,3 +1544,19 @@ function pmprosm_pmpro_email_body($body, $pmpro_email)
 	return $body;
 }
 add_filter("pmpro_email_body", "pmprosm_pmpro_email_body", 10, 2);
+
+/*
+Function to add links to the plugin row meta
+*/
+function pmprosm_plugin_row_meta($links, $file) {
+	if(strpos($file, 'pmpro-sponsored-members.php') !== false)
+	{
+		$new_links = array(
+			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/plugins-on-github/pmpro-sponsored-members/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
+		);
+		$links = array_merge($links, $new_links);
+	}
+	return $links;
+}
+add_filter('plugin_row_meta', 'pmprosm_plugin_row_meta', 10, 2);

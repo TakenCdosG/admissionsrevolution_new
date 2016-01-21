@@ -22,7 +22,11 @@ class MWP_EventListener_FixCompatibility implements Symfony_EventDispatcher_Even
     {
         return array(
             MWP_Event_Events::ACTION_RESPONSE => 'fixWpSuperCache',
-            MWP_Event_Events::MASTER_REQUEST  => array('fixAllInOneSecurity', -10000),
+            MWP_Event_Events::MASTER_REQUEST  => array(
+                array('fixAllInOneSecurity', -10000),
+                array('fixWpSimpleFirewall', -10000),
+                array('fixDuoFactor', -10000),
+            ),
         );
     }
 
@@ -31,6 +35,23 @@ class MWP_EventListener_FixCompatibility implements Symfony_EventDispatcher_Even
         if ($this->context->hasConstant('ADVANCEDCACHEPROBLEM') && $this->context->getConstant('ADVANCEDCACHEPROBLEM')) {
             $this->context->set('wp_cache_config_file', null);
         }
+    }
+
+    public function fixDuoFactor()
+    {
+        if (!$this->context->isPluginEnabled('duo-wordpress/duo_wordpress.php')) {
+            return;
+        }
+
+        $this->context->addAction('init', array($this, '_fixDuoFactor'), -1);
+    }
+
+    /**
+     * @internal
+     */
+    public function _fixDuoFactor()
+    {
+        $this->context->removeAction('init', 'duo_verify_auth', 10);
     }
 
     public function fixAllInOneSecurity()
@@ -54,5 +75,29 @@ class MWP_EventListener_FixCompatibility implements Symfony_EventDispatcher_Even
         }
 
         $this->context->updateUserMeta($user->ID, 'last_login_time', $this->context->getCurrentTime()->format('Y-m-d H:i:s'));
+    }
+
+    public function fixWpSimpleFirewall()
+    {
+        if (!$this->context->isPluginEnabled('wp-simple-firewall/icwp-wpsf.php')) {
+            return;
+        }
+
+        /** @handled function */
+        MWP_FixCompatibility_ICWP_WPSF();
+    }
+}
+
+function MWP_FixCompatibility_ICWP_WPSF()
+{
+    if (class_exists('ICWP_WPSF_Processor_LoginProtect_TwoFactorAuth', false)) {
+        return;
+    }
+
+    class ICWP_WPSF_Processor_LoginProtect_TwoFactorAuth
+    {
+        public function run()
+        {
+        }
     }
 }

@@ -196,14 +196,18 @@
 		$bphone = sanitize_text_field(stripslashes($_REQUEST['bphone']));
 	else
 		$bphone = "";
-	if (isset($_REQUEST['bemail']))
+	if( isset ( $_REQUEST['bemail'] ) )
 		$bemail = sanitize_email(stripslashes($_REQUEST['bemail']));
+	elseif( is_user_logged_in() )
+		$bemail = $current_user->user_email;
 	else
 		$bemail = "";
 	if (isset($_REQUEST['bconfirmemail_copy']))
 		$bconfirmemail = $bemail;
 	elseif (isset($_REQUEST['bconfirmemail']))
 		$bconfirmemail = sanitize_email(stripslashes($_REQUEST['bconfirmemail']));
+	elseif( is_user_logged_in() )
+		$bconfirmemail = $current_user->user_email;
 	else
 		$bconfirmemail = "";
 
@@ -491,7 +495,7 @@
 						$morder->subtotal = $morder->InitialPayment;
 						$morder->getTax();
 
-						//filter for order, since v2.0
+						//filter for order, since v1.8
 						$morder = apply_filters("pmpro_checkout_order", $morder);
 
 						$pmpro_processed = $morder->process();
@@ -570,11 +574,15 @@
 			if (!$user_id || is_wp_error($user_id)) {
 				$pmpro_msg = __("Your payment was accepted, but there was an error setting up your account. Please contact us.", "pmpro");
 				$pmpro_msgt = "pmpro_error";
-			} elseif ( apply_filters('pmpro_setup_new_user', true, $user_id, $new_user_array) ) {
+			} elseif (apply_filters('pmpro_setup_new_user', true, $user_id, $new_user_array, $pmpro_level)) {
 
 				//check pmpro_wp_new_user_notification filter before sending the default WP email
-				if (apply_filters("pmpro_wp_new_user_notification", true, $user_id, $pmpro_level->id))
-					wp_new_user_notification($user_id, $new_user_array['user_pass']);
+				if (apply_filters("pmpro_wp_new_user_notification", true, $user_id, $pmpro_level->id)) {
+					if (version_compare($wp_version, "4.3.0") >= 0)
+						wp_new_user_notification($user_id, null, 'both');
+					else
+						wp_new_user_notification($user_id, $new_user_array['user_pass']);
+				}
 
 				$wpuser = get_userdata($user_id);
 
@@ -590,7 +598,7 @@
 
 				//setting some cookies
 				wp_set_current_user($user_id, $username);
-				wp_set_auth_cookie($user_id, true, apply_filters('pmpro_checkout_signon_secure', (force_ssl_login() || force_ssl_admin())));
+				wp_set_auth_cookie($user_id, true, apply_filters('pmpro_checkout_signon_secure', force_ssl_admin()));
 			}
 		}
 		else
@@ -638,6 +646,8 @@
 					$morder->InitialPayment = 0;
 					$morder->Email = $bemail;
 					$morder->gateway = "free";
+
+					$morder = apply_filters("pmpro_checkout_order_free", $morder);
 				}
 
 				//add an item to the history table, cancel old subscriptions

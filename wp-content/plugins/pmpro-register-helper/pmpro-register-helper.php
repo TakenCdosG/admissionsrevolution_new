@@ -3,14 +3,14 @@
 Plugin Name: Paid Memberships Pro - Register Helper Add On
 Plugin URI: http://www.paidmembershipspro.com/pmpro-register-helper/
 Description: Custom fields, shortcodes, and other functions to help customize your Paid Memberships Pro checkout process.
-Version: 1.0.2
+Version: 1.2
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
 
 define('PMPRORH_DIR', dirname(__FILE__) );
 define('PMPRORH_URL', WP_PLUGIN_URL . "/pmpro-register-helper");
-define('PMPRORH_VERSION', '1.0.1');
+define('PMPRORH_VERSION', '1.2');
 
 /*
 	options - just defaults for now, will be in settings eventually
@@ -82,7 +82,7 @@ global $pmprorh_registration_fields, $pmprorh_checkout_boxes;
 $pmprorh_registration_fields = array();
 $cb = new stdClass();
 $cb->name = "checkout_boxes";
-$cb->label = "More Information";
+$cb->label = apply_filters("pmprorh_section_header", "More Information");
 $cb->order = 0;
 $pmprorh_checkout_boxes = array("checkout_boxes" => $cb);
 
@@ -350,16 +350,11 @@ function pmprorh_pmpro_checkout_boxes()
 		if($n > 0)
 		{
 			?>
-			<table id="pmpro_checkout_box-<?php echo $cb->name; ?>" class="pmpro_checkout" width="100%" cellpadding="0" cellspacing="0" border="0">
-			<thead>
-				<tr>
-					<th>
-						<?php echo $cb->label;?>
-					</th>						
-				</tr>
-			</thead>
-			<tbody>  
-				<tr><td>
+			<div id="pmpro_checkout_box-<?php echo $cb->name; ?>" class="pmpro_checkout">
+				<h2>	
+					<span class="pmpro_thead-name"><?php echo $cb->label;?></span>
+				</h2>
+				<div class="pmpro_checkout-fields">
 				<?php if(!empty($cb->description)) {  ?><div class="pmpro_checkout_decription"><?php echo $cb->description; ?></div><?php } ?>
 				<?php
 				foreach($pmprorh_registration_fields[$cb->name] as $field)
@@ -368,9 +363,8 @@ function pmprorh_pmpro_checkout_boxes()
 						$field->displayAtCheckout();		
 				}
 				?>
-				</td></tr>
-			</tbody>
-			</table>
+				</div> <!-- end pmpro_checkout-fields -->
+			</div> <!-- end pmpro_checkout_box-name -->
 			<?php
 		}
 	}
@@ -489,7 +483,7 @@ function pmprorh_pmpro_after_checkout($user_id)
 					if(!empty($field->save_function))
 						call_user_func($field->save_function, $user_id, $field->name, $value);
 					else
-						update_user_meta($user_id, $field->name, $value);
+						update_user_meta($user_id, $field->meta_key, $value);
 				}
 			}			
 		}
@@ -750,7 +744,7 @@ function pmprorh_pmpro_add_member_fields($user)
     <?php
     }
 }
-add_action( 'pmpro_add_member_fields', 'pmprorh_pmpro_add_member_fields' );
+add_action( 'pmpro_add_member_fields', 'pmprorh_pmpro_add_member_fields', 10, 1 );
 
 function pmprorh_pmpro_add_member_added()
 {
@@ -792,7 +786,7 @@ function pmprorh_pmpro_add_member_added()
                 if(!empty($field->save_function))
                     call_user_func($field->save_function, $user_id, $field->name, $_POST[$field->name]);
                 else
-                    update_user_meta($user_id, $field->name, $_POST[$field->name]);
+                    update_user_meta($user_id, $field->meta_key, $_POST[$field->name]);
             }
             elseif(!empty($_POST[$field->name . "_checkbox"]) && $field->type == 'checkbox')	//handle unchecked checkboxes
             {
@@ -800,7 +794,7 @@ function pmprorh_pmpro_add_member_added()
                 if(!empty($field->save_function))
                     call_user_func($field->save_function, $user_id, $field->name, 0);
                 else
-                    update_user_meta($user_id, $field->name, 0);
+                    update_user_meta($user_id, $field->meta_key, 0);
             }
         }
     }
@@ -911,7 +905,7 @@ function pmprorh_rf_save_extra_profile_fields( $user_id )
 				if(!empty($field->save_function))
 					call_user_func($field->save_function, $user_id, $field->name, $_POST[$field->name]);
 				else
-					update_user_meta($user_id, $field->name, $_POST[$field->name]);				
+					update_user_meta($user_id, $field->meta_key, $_POST[$field->name]);				
 			}
 			elseif(!empty($_POST[$field->name . "_checkbox"]) && $field->type == 'checkbox')	//handle unchecked checkboxes
 			{
@@ -919,7 +913,7 @@ function pmprorh_rf_save_extra_profile_fields( $user_id )
 				if(!empty($field->save_function))
 					call_user_func($field->save_function, $user_id, $field->name, 0);
 				else
-					update_user_meta($user_id, $field->name, 0);		
+					update_user_meta($user_id, $field->meta_key, 0);		
 			}				
 		}
 	}
@@ -1037,7 +1031,9 @@ function pmprorh_checkFieldForLevel($field, $scope = "default", $args = NULL)
 			//check against $_REQUEST
 			if(!empty($_REQUEST['level']))
 			{
-				if(in_array($_REQUEST['level'], $field->levels))
+				if(is_array($field->levels) && in_array($_REQUEST['level'], $field->levels))
+					return true;
+				elseif(!is_array($field->levels) && (intval($_REQUEST['level']) == intval($field->levels)))
 					return true;
 				else
 					return false;
@@ -1138,7 +1134,7 @@ function pmprorh_pmpro_email_filter($email)
 				{					
 					$email->body .= "- " . $field->label . ": ";
 				
-					$value = get_user_meta($user_id, $field->name, true);
+					$value = get_user_meta($user_id, $field->meta_key, true);
 					if($field->type == "file" && is_array($value) && !empty($value['fullurl']))
 						$email->body .= $value['fullurl'];
 					elseif(is_array($value))
@@ -1165,7 +1161,7 @@ function pmprorh_pmpro_members_list_csv_extra_columns($columns)
 	$csv_cols = pmprorh_getCSVFields();		
 	foreach($csv_cols as $key => $value)
 	{		
-		$columns[$value->name] = "pmprorh_csv_columns";
+		$columns[$value->meta_key] = "pmprorh_csv_columns";
 	}
 	
 	return $columns;

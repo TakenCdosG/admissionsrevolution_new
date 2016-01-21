@@ -39,9 +39,9 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
         $dispatcher->addSubscriber(new MWP_EventListener_MasterRequest_RemoveUsernameParam());
         $dispatcher->addSubscriber(new MWP_EventListener_MasterRequest_AuthenticateLegacyRequest($this->getConfiguration()));
         $dispatcher->addSubscriber(new MWP_EventListener_MasterRequest_SetRequestSettings($this->getWordPressContext()));
-        $dispatcher->addSubscriber(new MWP_EventListener_ActionRequest_VerifyNonce($this->getNonceManager()));
+        $dispatcher->addSubscriber(new MWP_EventListener_MasterRequest_SetCurrentUser($this->getWordPressContext()));
 
-        $dispatcher->addSubscriber(new MWP_EventListener_ActionRequest_SetCurrentUser($this->getWordPressContext()));
+        $dispatcher->addSubscriber(new MWP_EventListener_ActionRequest_VerifyNonce($this->getNonceManager()));
         $dispatcher->addSubscriber(new MWP_EventListener_ActionRequest_SetSettings($this->getWordPressContext(), $this->getSystemEnvironment(), $this->getMigration()));
         $dispatcher->addSubscriber(new MWP_EventListener_ActionRequest_LogRequest($this->getLogger()));
 
@@ -114,6 +114,8 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
         $mapper->addDefinition('get_state', new MWP_Action_Definition(array('MWP_Action_GetState', 'execute')));
         $mapper->addDefinition('add_site', new MWP_Action_Definition(array('MWP_Action_ConnectWebsite', 'execute')));
         $mapper->addDefinition('destroy_sessions', new MWP_Action_Definition(array('MWP_Action_DestroySessions', 'execute')));
+        $mapper->addDefinition('check_connection', new MWP_Action_Definition(array('MWP_Action_CheckConnection', 'execute')));
+        $mapper->addDefinition('clear_transient', new MWP_Action_Definition(array('MWP_Action_ClearTransient', 'execute')));
 
         // Incremental backup actions
         $mapper->addDefinition('list_files', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_ListFiles', 'queryFiles')));
@@ -130,6 +132,7 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
         $mapper->addDefinition('dump_tables_into_files', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_DumpTables', 'execute')));
         $mapper->addDefinition('backup_stats', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_Stats', 'execute')));
         $mapper->addDefinition('upload_cloner', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_UploadCloner', 'execute')));
+        $mapper->addDefinition('get_table_schema', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_GetTableSchema', 'execute')));
         $mapper->addDefinition('delete_dump_files', new MWP_Action_Definition(array('MWP_Action_IncrementalBackup_DeleteDumpFiles', 'execute')));
 
         return $mapper;
@@ -183,11 +186,11 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
      */
     public function createSigner()
     {
-        if ($this->getParameter('prefer_phpseclib')) {
-            return MWP_Signer_Factory::createPhpSecLibSigner();
+        if ($this->getSystemEnvironment()->isOpenSslLibraryEnabled()) {
+            return MWP_Signer_Factory::createOpenSslSigner();
         }
 
-        return MWP_Signer_Factory::createSigner();
+        return MWP_Signer_Factory::createPhpSecLibSigner();
     }
 
     /**
@@ -195,11 +198,11 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
      */
     public function createCrypter()
     {
-        if ($this->getParameter('prefer_phpseclib')) {
-            return MWP_Crypter_Factory::createPhpSecLibCrypter();
+        if ($this->getSystemEnvironment()->isOpenSslLibraryEnabled()) {
+            return MWP_Crypter_Factory::createOpenSslCrypter();
         }
 
-        return MWP_Crypter_Factory::createCrypter();
+        return MWP_Crypter_Factory::createPhpSecLibCrypter();
     }
 
     /**
@@ -239,14 +242,48 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
     {
         $handlers = array();
 
-        if ($this->getParameter('log_file') && ($logFile = $this->createLogStream($this->getParameter('log_file')))) {
+        $fileLogging = $this->getParameter('log_file');
+        $gelfLogging = $this->getParameter('gelf_server');
+
+        if ($fileLogging || $gelfLogging) {
+            $logStart = $this->getParameter('log_start');
+
+            // Save when the first log started
+            if (!$logStart) {
+                $parameters = $this->getWordPressContext()->optionGet('mwp_container_parameters');
+
+                $parameters['log_start'] = time();
+
+                $this->getWordPressContext()->optionSet('mwp_container_parameters', $parameters);
+            }
+
+            // Logs can only go on for two days, always delete them after that
+            if ($logStart && time() - $logStart > 172800) {
+                // delete log file and disable logging
+                @unlink(dirname(__FILE__).'/../../../'.$fileLogging);
+                $parameters = $this->getWordPressContext()->optionGet('mwp_container_parameters');
+
+                $fileLogging = null;
+                $gelfLogging = null;
+
+                $parameters['gelf_server'] = null;
+                $parameters['log_file']    = null;
+                $parameters['log_start']   = false;
+
+                $this->getWordPressContext()->optionSet('mwp_container_parameters', $parameters);
+            }
+        } elseif (@file_exists(dirname(__FILE__).'/../../../'.$fileLogging)) {
+            @unlink(dirname(__FILE__).'/../../../'.$fileLogging);
+        }
+
+        if ($fileLogging && ($logFile = $this->createLogStream($fileLogging))) {
             $fileHandler = new Monolog_Handler_StreamHandler($logFile);
             $fileHandler->setFormatter(new Monolog_Formatter_HtmlFormatter());
             $handlers[] = $fileHandler;
         }
 
-        if ($this->getParameter('gelf_server')) {
-            $publisher  = new Gelf_Publisher($this->getParameter('gelf_server'), $this->getParameter('gelf_port') ? $this->getParameter('gelf_port') : Gelf_Publisher::GRAYLOG2_DEFAULT_PORT);
+        if ($gelfLogging) {
+            $publisher  = $this->getGelfPublisher();
             $handlers[] = new Monolog_Handler_LegacyGelfHandler($publisher);
         }
 
@@ -263,10 +300,11 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
                 array(new MWP_Monolog_Processor_TimeUsageProcessor(), 'callback'),
                 array(new MWP_Monolog_Processor_ExceptionProcessor(), 'callback'),
                 array(new MWP_Monolog_Processor_ProcessProcessor(), 'callback'),
+                array(new MWP_Monolog_Processor_RequestIdProcessor($this->getParameter('request_id')), 'callback'),
             );
-        } else {
-            $handlers[] = new Monolog_Handler_NullHandler();
         }
+        // Always push this handler, because Monolog attaches an STDERR handler if there's no other present.
+        $handlers[] = new Monolog_Handler_NullHandler(1000);
 
         $logger = new Monolog_Logger('worker', $handlers, $processors);
 
@@ -329,13 +367,7 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
      */
     protected function createErrorLogger()
     {
-        $processors = array(
-            array(new Monolog_Processor_PsrLogMessageProcessor(), 'callback'),
-        );
-
-        $logger = new Monolog_Logger('worker.error', array(), $processors);
-
-        return $logger;
+        return $this->getLogger();
     }
 
     /**
@@ -368,5 +400,14 @@ class MWP_ServiceContainer_Production extends MWP_ServiceContainer_Abstract
     protected function createMigration()
     {
         return new MWP_Migration_Migration($this->getWordPressContext());
+    }
+
+    protected function createGelfPublisher()
+    {
+        $server       = $this->getParameter('gelf_server');
+        $port         = $this->getParameter('gelf_port');
+        $fallbackPort = $this->getParameter('gelf_port_fallback');
+
+        return new Gelf_Publisher($server, $port, $fallbackPort);
     }
 }

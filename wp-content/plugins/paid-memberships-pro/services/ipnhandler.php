@@ -368,44 +368,69 @@
 		//post back to PayPal system to validate
 		$gateway_environment = pmpro_getOption("gateway_environment");
 		if($gateway_environment == "sandbox")
-			$fp = wp_remote_post('https://www.' . $gateway_environment . '.paypal.com?' . $req, array("httpversion"=>"1.1", "Host"=>"www.paypal.com", "Connection"=>"Close"));
+			$fp = wp_remote_post('https://www.' . $gateway_environment . '.paypal.com?' . $req, array("httpversion"=>"1.1", "Host"=>"www.paypal.com", "Connection"=>"Close", "user-agent"=>PMPRO_USER_AGENT));
 		else
-			$fp = wp_remote_post('https://www.paypal.com?' . $req, array("httpversion"=>"1.1", "Host"=>"www.paypal.com", "Connection"=>"Close"));
+			$fp = wp_remote_post('https://www.paypal.com?' . $req, array("httpversion"=>"1.1", "Host"=>"www.paypal.com", "Connection"=>"Close", "user-agent"=>PMPRO_USER_AGENT));
 
-		//error from PayPal
-		if(!empty($fp->errors))
-		{
-			ipnlog("ERROR");
-			ipnlog("Error Info: " . print_r($fp->errors, true) . "\n");
-		}
-
-		//log post vars and PayPal object
+		//log post vars
 		ipnlog(print_r($_POST, true));
-		//ipnlog(print_r($fp, true));
+
+		//assume invalid
+		$r = false;
 
 		if(empty($fp))
 		{
 			//HTTP ERROR
 			ipnlog("HTTP ERROR");
+
+			$r = false;
+		}
+		elseif(!empty($fp->errors))
+		{
+			//error from PayPal
+			ipnlog("ERROR");
+			ipnlog("Error Info: " . print_r($fp->errors, true) . "\n");
+
+			//log fb object
+			ipnlog(print_r($fp, true));
+
+			$r = false;
 		}
 		else
 		{
 			ipnlog("FP!");
 
+			//log fb object
+			ipnlog(print_r($fp, true));
+
 			$res = wp_remote_retrieve_body($fp);
-			if(strcmp($res, "VERIFIED") == 0 || true)
+			ipnlog(print_r($res, true));
+
+			if(strcmp($res, "VERIFIED") == 0)
 			{
 				//all good so far
 				ipnlog("VERIFIED");
-				return true;
+				$r = true;
 			}
 			else
 			{
 				//log for manual investigation
 				ipnlog("INAVLID");
-				return false;
+				$r = false;
 			}
 		}
+
+		/**
+		 * Filter if an ipn request is valid or not.
+		 *
+		 * @since 1.8.6.3
+		 *
+		 * @param bool $r true or false if the request is valid
+		 * @param mixed $fp remote post object from request to PayPal
+		 */
+		$r = apply_filters('pmpro_ipn_validate', $r, $fp);
+
+		return $r;
 	}
 
 	/*

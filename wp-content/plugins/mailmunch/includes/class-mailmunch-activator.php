@@ -30,7 +30,7 @@ class Mailmunch_Activator {
 	 * @since    2.0.0
 	 */
 	public static function activate() {
-
+    update_option('mailmunch_activation_redirect', 'true');
 	}
 
 }
