@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro
 Plugin URI: http://www.paidmembershipspro.com
 Description: Plugin to Handle Memberships
-Version: 1.8.6.8.1
+Version: 1.8.7.1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -13,7 +13,7 @@ Author URI: http://www.strangerstudios.com
 */
 
 //version constant
-define("PMPRO_VERSION", "1.8.6.8.1");
+define("PMPRO_VERSION", "1.8.7.1");
 define("PMPRO_USER_AGENT", "Paid Memberships Pro v" . PMPRO_VERSION . "; " . site_url());
 
 //if the session has been started yet, start it (ignore if running from command line)
@@ -41,6 +41,7 @@ define("PMPRO_DIR", dirname(__FILE__));
 require_once(PMPRO_DIR . "/includes/localization.php");			//localization functions
 require_once(PMPRO_DIR . "/includes/lib/name-parser.php");		//parses "Jason Coleman" into firstname=>Jason, lastname=>Coleman
 require_once(PMPRO_DIR . "/includes/functions.php");			//misc functions used by the plugin
+require_once(PMPRO_DIR . "/includes/updates.php");			//database and other updates
 require_once(PMPRO_DIR . "/includes/upgradecheck.php");			//database and other updates
 
 if(!defined('PMPRO_LICENSE_SERVER'))
@@ -148,6 +149,10 @@ $membership_levels = $wpdb->get_results( "SELECT * FROM {$wpdb->pmpro_membership
 /*
 	Activation/Deactivation
 */
+
+
+pmpro_activation();
+
 function pmpro_activation()
 {
 	//schedule crons
@@ -172,6 +177,7 @@ function pmpro_activation()
 	$role->add_cap( 'pmpro_orders' );
 	$role->add_cap( 'pmpro_orderscsv' );
 	$role->add_cap( 'pmpro_discountcodes' );
+	$role->add_cap( 'pmpro_updates' );
 
 	do_action('pmpro_activation');
 }
@@ -199,6 +205,7 @@ function pmpro_deactivation()
 	$role->remove_cap( 'pmpro_orders' );
 	$role->remove_cap( 'pmpro_orderscsv' );
 	$role->remove_cap( 'pmpro_discountcodes' );
+	$role->remove_cap( 'pmpro_updates' );
 
 	do_action('pmpro_deactivation');
 }

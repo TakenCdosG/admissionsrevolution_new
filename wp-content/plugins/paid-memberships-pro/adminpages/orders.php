@@ -303,35 +303,6 @@
 			else
 			{
 				$order = new MemberOrder();			//new order
-
-				//defaults
-				$order->code = $order->getRandomCode();
-				$order->user_id = "";
-				$order->membership_id = "";
-				$order->billing->name = "";
-				$order->billing->street = "";
-				$order->billing->city = "";
-				$order->billing->state = "";
-				$order->billing->zip = "";
-				$order->billing->country = "";
-				$order->billing->phone = "";
-				$order->subtotal = "";
-				$order->tax = "";
-				$order->couponamount = "";
-				$order->total = "";
-				$order->payment_type = "";
-				$order->cardtype = "";
-				$order->accountnumber = "";
-				$order->expirationmonth = "";
-				$order->expirationyear = "";
-				$order->status = "success";
-				$order->gateway = pmpro_getOption("gateway");
-				$order->gateway_environment = pmpro_getOption("gateway_environment");
-				$order->payment_transaction_id = "";
-				$order->subscription_transaction_id = "";
-				$order->affiliate_id = "";
-				$order->affiliate_subid = "";
-				$order->notes = "";
 			}
 		}
 	}
@@ -625,7 +596,7 @@
 					if(!empty($affiliates)) {
 				?>
 				<tr>
-					<th scope="row" valign="top"><label for="affiliate_id"><?php _e('Affiliate ID', 'pmpro');?>Affiliate ID:</label></th>
+					<th scope="row" valign="top"><label for="affiliate_id"><?php _e('Affiliate ID', 'pmpro');?>:</label></th>
 					<td>
 						<?php if(in_array("affiliate_id", $read_only_fields) && $order_id > 0) { echo $order->affiliate_id; } else { ?>
 							<input id="affiliate_id" name="affiliate_id" type="text" size="50" value="<?php echo esc_attr($order->affiliate_id);?>" />
@@ -633,7 +604,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th scope="row" valign="top"><label for="affiliate_subid"><?php _e('Affiliate SubID', 'pmpro');?>Affiliate SubID:</label></th>
+					<th scope="row" valign="top"><label for="affiliate_subid"><?php _e('Affiliate SubID', 'pmpro');?>:</label></th>
 					<td>
 						<?php if(in_array("affiliate_subid", $read_only_fields) && $order_id > 0) { echo $order->affiliate_subid; } else { ?>
 							<input id="affiliate_subid" name="affiliate_subid" type="text" size="50" value="<?php echo esc_attr($order->affiliate_subid);?>" />

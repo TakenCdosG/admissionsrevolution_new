@@ -4,7 +4,7 @@
 		/**
 		 * Constructor
 		 */
-		function MemberOrder($id = NULL)
+		function __construct($id = NULL)
 		{
 			//set up the gateway
 			$this->setGateway(pmpro_getOption("gateway"));
@@ -18,11 +18,56 @@
 					return $this->getMemberOrderByCode($id);
 			}
 			else
-				return true;	//blank constructor
+				return $this->getEmptyMemberOrder();	//blank constructor
 		}
 
 		/**
-		 * Retrieve a member ordr from the DB by ID
+		 * Returns an empty (but complete) order object.
+		 *
+		 * @return stdClass $order - a 'clean' order object
+		 *
+		 * @since: 1.8.6.8
+		 */
+		function getEmptyMemberOrder()
+		{
+
+			//defaults
+			$order = new stdClass();
+			$order->code = $this->getRandomCode();
+			$order->user_id = "";
+			$order->membership_id = "";
+			$order->subtotal = "";
+			$order->tax = "";
+			$order->couponamount = "";
+			$order->total = "";
+			$order->payment_type = "";
+			$order->cardtype = "";
+			$order->accountnumber = "";
+			$order->expirationmonth = "";
+			$order->expirationyear = "";
+			$order->status = "success";
+			$order->gateway = pmpro_getOption("gateway");
+			$order->gateway_environment = pmpro_getOption("gateway_environment");
+			$order->payment_transaction_id = "";
+			$order->subscription_transaction_id = "";
+			$order->affiliate_id = "";
+			$order->affiliate_subid = "";
+			$order->notes = "";
+
+			$order->billing = new stdClass();
+			$order->billing->name = "";
+			$order->billing->street = "";
+			$order->billing->city = "";
+			$order->billing->state = "";
+			$order->billing->zip = "";
+			$order->billing->country = "";
+			$order->billing->phone = "";
+
+			return $order;
+		}
+
+		/**
+		 * Retrieve a member order from the DB by ID
 		 */
 		function getMemberOrderByID($id)
 		{
@@ -458,6 +503,13 @@
 			if(empty($this->gateway_environment))
 				$this->gateway_environment = pmpro_getOption("gateway_environment");
 
+			if(empty($this->datetime) && empty($this->timestamp))
+				$this->datetime = date("Y-m-d H:s:i", current_time("timestamp"));		//use current time
+			elseif(empty($this->datetime) && !empty($this->timestamp) && is_numeric($this->timestamp))
+				$this->datetime = date("Y-m-d H:s:i", $this->timestamp);	//get datetime from timestamp
+			elseif(empty($this->datetime) && !empty($this->timestamp))
+				$this->datetime = $this->timestamp;		//must have a datetime in it
+
 			if(empty($this->notes))
 				$this->notes = "";
 
@@ -497,6 +549,7 @@
 									`gateway_environment` = '" . $this->gateway_environment . "',
 									`payment_transaction_id` = '" . esc_sql($this->payment_transaction_id) . "',
 									`subscription_transaction_id` = '" . esc_sql($this->subscription_transaction_id) . "',
+									`timestamp` = '" . esc_sql($this->datetime) . "',
 									`affiliate_id` = '" . esc_sql($this->affiliate_id) . "',
 									`affiliate_subid` = '" . esc_sql($this->affiliate_subid) . "',
 									`notes` = '" . esc_sql($this->notes) . "'
@@ -539,7 +592,7 @@
 									   '" . $this->gateway_environment . "',
 									   '" . esc_sql($this->payment_transaction_id) . "',
 									   '" . esc_sql($this->subscription_transaction_id) . "',
-									   '" . current_time('mysql') . "',
+									   '" . esc_sql($this->datetime) . "',
 									   '" . esc_sql($this->affiliate_id) . "',
 									   '" . esc_sql($this->affiliate_subid) . "',
 									    '" . esc_sql($this->notes) . "'

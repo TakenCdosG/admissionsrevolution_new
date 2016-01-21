@@ -1,6 +1,6 @@
 <?php
 	//in case the file is loaded directly
-	if(!defined("WP_USE_THEMES"))
+	if(!defined("ABSPATH"))
 	{
 		global $isapage;
 		$isapage = true;
@@ -705,6 +705,10 @@
 				$morder->ExpirationDate_YdashM = $morder->expirationyear . "-" . $morder->expirationmonth;
 			}
 
+			//figure out timestamp or default to none (today)
+			if(!empty($_POST['payment_date']))
+				$morder->timestamp = strtotime($_POST['payment_date']);
+
 			//save
 			$morder->saveOrder();
 			$morder->getMemberOrderByID($morder->id);
@@ -723,4 +727,3 @@
 			return false;
 		}
 	}
-

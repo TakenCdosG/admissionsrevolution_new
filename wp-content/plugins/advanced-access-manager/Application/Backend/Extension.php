@@ -158,7 +158,7 @@ class AAM_Backend_Extension {
             'uid' => 'extension',
             'position' => 999,
             'title' => __('Extensions', AAM_KEY),
-            'notification' => self::getUpdatesCount(),
+            'notification' => self::getNotification(),
             'subjects' => array(
                 'AAM_Core_Subject_Role', 
                 'AAM_Core_Subject_User', 
@@ -172,7 +172,7 @@ class AAM_Backend_Extension {
      * 
      * @return int
      */
-    protected static function getUpdatesCount() {
+    protected static function getNotification() {
         $list = AAM_Core_API::getOption('aam-extension-repository', array());
         $repo = AAM_Core_Repository::getInstance();
         $count = 0;

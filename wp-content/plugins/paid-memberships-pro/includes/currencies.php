@@ -25,6 +25,7 @@
 				'symbol' => '&pound;',
 				'position' => 'left'
 				),
+			'ARS' => __('Argentine Peso (&#36;)', 'pmpro'),
 			'AUD' => __('Australian Dollars (&#36;)', 'pmpro'),
 			'BRL' => array(
 				'name' => __('Brazilian Real (R&#36;)', 'pmpro'),
@@ -54,6 +55,7 @@
 				),
 			'MYR' => __('Malaysian Ringgits', 'pmpro'),
 			'MXN' => __('Mexican Peso (&#36;)', 'pmpro'),
+			'NGN' => __('Nigerian Naira (&#8358;)', 'pmpro'),
 			'NZD' => __('New Zealand Dollar (&#36;)', 'pmpro'),
 			'NOK' => __('Norwegian Krone', 'pmpro'),
 			'PHP' => __('Philippine Pesos', 'pmpro'),
