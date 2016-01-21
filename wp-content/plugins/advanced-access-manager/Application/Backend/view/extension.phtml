@@ -43,6 +43,12 @@
                                 <a href="#" class="btn btn-warning btn-block aam-update-extension" data-product="<?php echo $product['id']; ?>"><i class="icon-arrows-cw"></i> <?php echo __('Update', AAM_KEY); ?></a>
                             <?php } elseif ($product['type'] == 'commercial') { ?>
                                 <a href="<?php echo $product['storeURL']; ?>" target="_blank" class="btn btn-success btn-block"><i class="icon-basket"></i> <?php echo __('Purchase', AAM_KEY); ?></a>
+                            <?php } elseif ($product['type'] == 'plugin') { ?>
+                                <?php if ($product['status']['status'] == 'install') { ?>
+                                    <a href="<?php echo $product['status']['url']; ?>" class="btn btn-success btn-block"><i class="icon-plus"></i> <?php echo __('Install', AAM_KEY); ?></a>
+                                <?php } else { ?>
+                                    <span class="aam-extension-installed"><i class="icon-check"></i> <?php echo __('Installed', AAM_KEY); ?></span>
+                                <?php } ?>
                             <?php } else { ?>
                                 <a href="#" class="btn btn-success btn-block aam-download-extension" data-license="<?php echo $product['license']; ?>"><i class="icon-download-cloud"></i> <?php echo __('Download', AAM_KEY); ?></a>
                             <?php } ?>

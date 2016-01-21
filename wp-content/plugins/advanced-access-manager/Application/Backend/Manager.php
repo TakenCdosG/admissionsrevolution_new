@@ -43,7 +43,7 @@ class AAM_Backend_Manager {
         //manager AAM Ajax Requests
         add_action('wp_ajax_aam', array($this, 'ajax'));
         //manager AAM Features Content rendering
-        add_action('admin_action_aam-content', array($this, 'renderContent'));
+        add_action('admin_action_aamc', array($this, 'renderContent'));
         //manager user search and authentication control
         add_filter('user_search_columns', array($this, 'searchColumns'));
         //manage access action to the user list

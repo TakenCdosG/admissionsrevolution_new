@@ -59,7 +59,7 @@
     //initialize the role list table
     $('#role-list').DataTable({
         autoWidth: false,
-        ordering: false,
+        ordering: true,
         dom: 'ftrip',
         pagingType: 'simple',
         processing: true,
@@ -74,7 +74,8 @@
             }
         },
         columnDefs: [
-            {visible: false, targets: [0, 1]}
+            {visible: false, targets: [0, 1]},
+            {sorting: false, targets: [0, 1, 3]}
         ],
         language: {
             search: '_INPUT_',
@@ -1534,7 +1535,7 @@
         //bind the download handler
         $('#download-extension').bind('click', function () {
             download(
-                    'data:image/gif;base64,' + dump.content,
+                    'data:application/zip;base64,' + dump.content,
                     dump.title + '.zip',
                     'application/zip'
             );
@@ -1591,7 +1592,7 @@
             dataType: 'html',
             async: false,
             data: {
-                action: 'aam-content',
+                action: 'aamc',
                 _ajax_nonce: aamLocal.nonce,
                 subject: this.getSubject().type,
                 subjectId: this.getSubject().id
